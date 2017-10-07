@@ -10,15 +10,17 @@
     function JoinCtrl($location, $scope, $localStorage, socket) {
         $scope.name = '';
         var nickname;
+
         $scope.join = function() {
             nickname = $scope.name;
-            $localStorage.name = $scope.name;
+            $localStorage.nickname = nickname;
 
-            $socket.emit('join', {
+            socket.emit('join', {
                 nickname: nickname
             });
 
             $location.path('/main');
         }
+
     }
 })();

@@ -12,6 +12,19 @@ app.use(express.static(path.join(__dirname, "public")));
 io.on('connection', function(socket) {
     console.log('new connection made');
 
+    socket.on('join-private', function(data) {
+        socket.join('private');
+        console.log(data.nickname + ' joined private');
+    });
+
+    socket.on('private-chat', function(data) {
+        socket.broadcast.to('private').emit('show-message', data.message);
+    });
+
+    socket.on('get-users', function() {
+        socket.emit('all-users', users);
+    });
+
     socket.on('join', function(data) {
         console.log(data);
         console.log(users);
@@ -22,6 +35,22 @@ io.on('connection', function(socket) {
             socketid: socket.id
         }
         users.push(userObj);
+        io.emit('all-users', users);
+    });
+
+    socket.on('send-message', function(data) {
+        socket.broadcast.emit('message-received', data);
+    });
+
+    socket.on('send-like', function(data) {
+        console.log(data);
+        socket.broadcast.to(data.like).emit('user-liked', data);
+    });
+
+    socket.on('disconnect', function() {
+        users = users.filter(function(item) {
+            return item.nickname !== socket.nickname;
+        });
         io.emit('all-users', users);
     });
 });
