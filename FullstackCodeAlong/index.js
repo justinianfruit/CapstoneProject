@@ -4,9 +4,6 @@ const express = require('express'),
 
 const app = express();
 
-//clientID 680489762612-3l4jiib9kcmaeg7ciheemic2or5l9otc.apps.googleusercontent.com
-//clientSecret qk7FhTKcI8daDtSqbnArKzk7
-
 passport.use(new GoogleStrategy());
 
 app.get('/', (req, res) => {
