@@ -1,14 +1,20 @@
 {
-  "name": "fullstackcodealong",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "JBarry",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.16.1"
-  }
+    "name": "fullstackcodealong",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "engines": {
+        "node": "8.1.1",
+        "npm": "5.0.3"
+    },
+    "scripts": {
+        "start": "node index.js"
+    },
+    "author": "JBarry",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.16.1",
+        "passport": "^0.4.0",
+        "passport-google-oauth20": "^1.0.0"
+    }
 }
