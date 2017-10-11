@@ -16,6 +16,7 @@
     "author": "JBarry",
     "license": "ISC",
     "dependencies": {
+        "concurrently": "^3.5.0",
         "cookie-session": "^1.3.2",
         "express": "^4.16.1",
         "mongoose": "^4.12.1",
