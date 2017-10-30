@@ -8,24 +8,32 @@ class Header extends Component {
             case null:
                 return;
             case false:
-                return <li><a href="/auth/google">Login with Google</a></li>;
+                return <ul className="item"><li className="last"><a href="/auth/google">Login with Google</a></li></ul>;
             default:
-                return <li><a href="/api/logout">Logout</a></li>;
+                return (
+                    <ul className="item">
+                        <li><a href="/profile">Profile</a></li>
+                        <li><a href="/buildtool">Wireframing</a></li>
+                        <li><a href="/chat">Chat</a></li>
+                        <li className="last"><a href="/api/logout">Logout</a></li>
+                    </ul>
+                );
         }
     }
 
     render() {
         return (
-            <nav>
-                <div className="nav-wrapper">
-                    <Link 
-                    to={this.props.auth ? '/surveys' : '/'} 
-                    className="left brand-logo">Framing</Link>
-                    <ul className="right">
-                        {this.renderContent()}
-                    </ul>
+            <header id="navbar" className="item">
+                <div className="item header-left">
+                    <img className="logo" src="../../../images/logoWhite.png" alt=""/>
+                    <Link className="title" to={this.props.auth ? '/profile' : '/'}>Framing</Link>
+                    <p className="signature">by Justine Barry</p>
                 </div>
-            </nav>
+                <div id="hamburger">&#9776;</div>
+                <div id="navContainer" className="item">
+                    {this.renderContent()}
+                </div>
+            </header>
         );
     };
 }
