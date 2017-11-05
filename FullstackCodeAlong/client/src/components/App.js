@@ -27,7 +27,7 @@ class App extends Component {
                     {<Route path="/surveys/new" component={SurveyNew} />}
                     <footer>
                         <hr/>
-                        <p>Framing &copy; by Justine Barry, 2017.</p>
+                        <p>Quid Proto Co &copy; by Justine Barry, 2017.</p>
                     </footer>
                 </div>
             </BrowserRouter>

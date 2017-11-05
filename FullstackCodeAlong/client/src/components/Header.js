@@ -26,7 +26,7 @@ class Header extends Component {
             <header id="navbar" className="item">
                 <div className="item header-left">
                     <img className="logo" src="../../../images/logoWhite.png" alt=""/>
-                    <Link className="title" to={this.props.auth ? '/profile' : '/'}>Framing</Link>
+                    <Link className="title" to={this.props.auth ? '/profile' : '/'}>Quid Proto Co</Link>
                     <p className="signature">by Justine Barry</p>
                 </div>
                 <div id="hamburger">&#9776;</div>

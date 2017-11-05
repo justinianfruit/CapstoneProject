@@ -72,7 +72,7 @@ class BuildTool extends Component {
                 <div className="row">
                     <div className="container-large">
                         <div className="col col-10 center">
-                            <h2>Wire Framing Tool</h2>
+                            <h1>Wire Framing Tool</h1>
                         </div>
                     </div>
                 </div>
@@ -92,27 +92,23 @@ class BuildTool extends Component {
                 </div>
                 <div className="row">
                     <div className="container-full">
-                        <div className="col col-2 antiLeft" style={{ border: '1px solid black', padding: '5px', height: '600px' }}>
+                        <div className="col col-2 antiLeft interact">
                             <form className="item2">
-                                Title: &nbsp;
-                                    <input
-                                    value={this.state.title}
-                                    onChange={this.handleChange}
-                                />
+                                <p>Title: &nbsp;</p><input value={this.state.title} onChange={this.handleChange}/>
                             </form>
                             <div className="item2">
-                                Background Color: &nbsp;<div id="backColor" onClick={this.openBackColors}></div>
+                                <p>Background Color: &nbsp;</p><div id="backColor" onClick={this.openBackColors}></div>
                             </div>
                             <div id="backgroundPicker">
                                 <ChromePicker color={this.state.background} onChangeComplete={this.changeBackground} />
                             </div>
                             <div className="item2">
-                                Text Color: &nbsp;<div id="textColor" onClick={this.openTextColors}></div>
+                                <p>Text Color: &nbsp;</p><div id="textColor" onClick={this.openTextColors}></div>
                             </div>
-                            <div id="textPicker">
+                            <div className="item2" id="textPicker">
                                 <ChromePicker color={this.state.foreground} onChangeComplete={this.changeText} />
                             </div>
-                            Font: <select id="fontBox" onChange={this.setFont}>
+                            <p>Font: </p><select className="item2" id="fontBox" onChange={this.setFont}>
                                 <option>Abril Fatface</option>
                                 <option selected>Alegreya Sans SC</option>
                                 <option>Audiowide</option>
@@ -125,7 +121,7 @@ class BuildTool extends Component {
                                 <option>Special Elite</option>
                             </select>
                         </div>
-                        <div className="col col-8 antiRight" id="card" style={{ border: '1px solid black', padding: '5px', height: '600px' }}>
+                        <div className="col col-8 antiRight" id="card">
                             <h1 id="cardTitle" className="center">{this.state.title}</h1>
                         </div>
                     </div>

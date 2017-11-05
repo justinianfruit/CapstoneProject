@@ -1,2 +1,0 @@
-SET TEST_KEY "test value"
-GET TEST_KEY

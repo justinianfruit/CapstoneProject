@@ -3,7 +3,7 @@ socket.on('connect', addUser);
 socket.on('updatechat', processMessage);
 socket.on('updateusers', updateUserList);
 
-// Add the addUser function, which clals the emit method on the socket to call
+// Add the addUser function, which calls the emit method on the socket to call
 // the adduser method on the chat server.
 function addUser() {
     var userNamePromt = swal({

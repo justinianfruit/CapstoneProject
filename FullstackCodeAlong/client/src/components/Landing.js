@@ -10,26 +10,40 @@ class Landing extends Component {
                 return;
             case false:
                 return (
-                    <div className="center">
-                        <h1>Framing</h1>
-                        <img src="../../../images/logoBase.png" alt=""/>
-                        <br/>
-                        Wireframe your product! Work independently or collaboratively!
+                    <div>
+                        <div className="row">
+                            <div className="container-large">
+                                <div className="col col-10 center">
+                                    <h1>Quid Proto Co</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="container-large">
+                                <div className="col col-10 center">
+                                    <img src="../../../images/logoBase.png" alt=""/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="container-large">
+                                <div className="col col-10 center">
+                                    <h4>Wireframe your product! Work independently or collaboratively!</h4>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 );
             default:
+                console.log("user is logged in already, load profile");
                 return <Route path="/profile" component={Profile} />;
         }
     }
 
     render() {
         return (
-            <div className="row">
-                <div className="container-large">
-                    <div className="col col-10 center">
-                        {this.renderContent()}
-                    </div>
-                </div>
+            <div>
+                {this.renderContent()}
             </div>
         );
     }
