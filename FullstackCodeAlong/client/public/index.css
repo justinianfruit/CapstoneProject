@@ -210,6 +210,10 @@ footer hr {
   margin: auto 5px;
 }
 
+.editTools {
+  flex-direction: row;
+}
+
 .toolbarR {
   text-align: right;
 }
@@ -327,8 +331,28 @@ select {
   margin: 0 auto;
   padding-bottom: 10px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   vertical-align: middle;
+}
+
+.editTools {
+  flex-direction: row;
+}
+
+.editTools form {
+  display: inline-block;
+}
+
+.editTools div {
+  display: inline-block;
+}
+
+.editTools p {
+  display: inline-block;
+}
+
+.editTools select {
+  display: inline-block;
 }
 
 #navbar {

@@ -78,21 +78,12 @@ class BuildTool extends Component {
                 </div>
                 <div className="row">
                     <div className="container-full tools">
-                        <div className="col col-2 antiLeft toolbarL">
+                        <div className="col col-1 antiLeft toolbarL">
                             <a>File</a>
                             <a>Edit</a>
                             <a>View</a>
                         </div>
-                        <div className="col col-6"></div>
-                        <div className="col col-2 antiRight toolbarR">
-                            <a>History</a>
-                            <a>Save</a>
-                        </div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="container-full">
-                        <div className="col col-2 antiLeft interact">
+                        <div className="col col-8 center editTools">
                             <form className="item2">
                                 <p>Title: &nbsp;</p><input value={this.state.title} onChange={this.handleChange}/>
                             </form>
@@ -120,6 +111,16 @@ class BuildTool extends Component {
                                 <option>Shrikhand</option>
                                 <option>Special Elite</option>
                             </select>
+                        </div>
+                        <div className="col col-1 antiRight toolbarR">
+                            <a>History</a>
+                            <a>Save</a>
+                        </div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="container-full">
+                        <div className="col col-2 antiLeft interact">
                         </div>
                         <div className="col col-8 antiRight" id="card">
                             <h1 id="cardTitle" className="center">{this.state.title}</h1>

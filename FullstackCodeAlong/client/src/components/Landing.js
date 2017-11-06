@@ -21,7 +21,7 @@ class Landing extends Component {
                         <div className="row">
                             <div className="container-large">
                                 <div className="col col-10 center">
-                                    <img src="../../../images/logoBase.png" alt=""/>
+                                    <img src="../../../images/logoBlack.png" alt=""/>
                                 </div>
                             </div>
                         </div>
@@ -36,7 +36,7 @@ class Landing extends Component {
                 );
             default:
                 console.log("user is logged in already, load profile");
-                return <Route path="/profile" component={Profile} />;
+                return <Profile />;
         }
     }
 
