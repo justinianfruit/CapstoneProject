@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head><% include partials/head %></head>
+<body>
+    <header><% include partials/header %></header>
+    <div id="sudo-body">
+        <div id="error-container"></div>
+        <input id="name" type="text" name="name" value="" placeholder="Enter your name!">
+        <button type="button" name="button" onclick="setUsername()">Let Me Chat!</button>
+    </div>
+    <footer><% include partials/footer %></footer>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="functionality.js"></script>
+</html>

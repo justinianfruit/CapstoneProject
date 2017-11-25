@@ -52,16 +52,16 @@ h1 {
 }
 
 body {
-  background-color: #f8d9ff;
+  background-color: #DDE0DC;
 }
 
 header {
-  background-color: #550069;
+  background-color: #5E615D;
   color: white;
 }
 
 #navbar ul .active {
-  background-color: #a900cf;
+  background-color: #919490;
 }
 
 #navbar ul .active.last {
@@ -72,7 +72,7 @@ header {
 }
 
 #navbar ul .active.last:hover, #navbar ul .active.last:active {
-  background-color: #a900cf;
+  background-color: #919490;
 }
 
 #navbar ul .last {
@@ -82,7 +82,7 @@ header {
 }
 
 #navbar ul .last:hover, #navbar ul .last:active {
-  background-color: #a900cf;
+  background-color: #919490;
   border-bottom-right-radius: 10px;
 }
 
@@ -93,7 +93,7 @@ header {
 }
 
 #navbar ul li:hover, #navbar ul li:active {
-  background-color: #a900cf;
+  background-color: #919490;
 }
 
 #navbar ul li a {
@@ -155,7 +155,7 @@ th, td {
 }
 
 tr:nth-child(even) {
-  background-color: #DBBDE2;
+  background-color: #C4C7C3;
 }
 
 h1 code, h4 code {
@@ -195,7 +195,7 @@ footer hr {
   border: 0;
   max-width: 1170px;
   height: 2px;
-  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(96, 18, 134, 0.95), rgba(0, 0, 0, 0));
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(68,77,62, 0.95), rgba(0, 0, 0, 0));
 }
 
 .tools {
@@ -203,7 +203,7 @@ footer hr {
 }
 
 .toolbarL a {
-  background-color: #DBBDE2;
+  background-color: #DDE0DC;
   border: 1px solid black;
   padding: 5px;
   cursor: pointer;
@@ -219,7 +219,7 @@ footer hr {
 }
 
 .toolbarR a {
-  background-color: #DBBDE2;
+  background-color: #DDE0DC;
   border: 1px solid black;
   padding: 5px;
   cursor: pointer;
@@ -248,7 +248,7 @@ input {
 
 .chat {
   width: 100%;
-  background-color: #DBBDE2;
+  background-color: #DDE0DC;
   height: 550px;
 }
 
@@ -362,9 +362,6 @@ select {
   -webkit-box-shadow: 0 10px 15px -6px black;
   -moz-box-shadow: 0 10px 15px -6px black;
   box-shadow: 0 10px 15px -6px black;
-  border-radius: 10px;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
 }
 
 #navbar .header-left {
@@ -431,32 +428,6 @@ select {
   flex-direction: row;
 }
 
-.panel-deep {
-  min-height: 20px;
-  padding: 5px 30px;
-  margin: 10px;
-  background-color: #333;
-  border: 1px solid #2e2e2e;
-  color: #fff;
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-}
-
-.panel-deep pre {
-  word-break: break-all;
-  word-wrap: break-word;
-  padding: 0px;
-  margin: 0px;
-}
-
-.panel-deep pre code {
-  white-space: pre-wrap;
-  padding: 0px;
-  margin: 0px;
-}
-
 .panel {
   margin: 10px;
   background-color: #fff;
@@ -471,7 +442,7 @@ select {
   border-bottom: 1px solid transparent;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  background-color: #7F009C;
+  background-color: #5E615D;
   color: white;
 }
 
@@ -480,7 +451,7 @@ select {
   border-top: 1px solid transparent;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
-  background-color: #7F009C;
+  background-color: #5E615D;
   color: white;
 }
 
@@ -495,13 +466,9 @@ select {
 
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
   background: rgba(155, 155, 155, 0.8);
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
 }
@@ -553,7 +520,6 @@ select {
 @media all and (max-width: 1100px) {
   #navbar {
     box-shadow: none;
-    border-radius: 0px;
   }
   #navbar #navContainer {
     display: none;
@@ -577,7 +543,7 @@ select {
     border-top: 1px solid #eee;
   }
   .dropMenu li {
-    background-color: #550069;
+    background-color: #5E615D;
     border-bottom: 1px solid #eee;
     padding: 5px 10px;
     font-weight: bold;
@@ -587,7 +553,7 @@ select {
   }
   .dropMenu li:hover {
     cursor: pointer;
-    background-color: #a900cf;
+    background-color: #919490;
     color: white;
   }
   .dropMenu li a {

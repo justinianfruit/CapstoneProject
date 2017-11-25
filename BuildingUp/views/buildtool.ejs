@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head><% include partials/head %></head>
+<body>
+    <header><% include partials/header %></header>
+    <div>
+        <div class="row">
+            <div class="container-large">
+                <div class="col col-10 center">
+                    <h1>Wire Framing Tool</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container-full tools">
+                <div class="col col-1 antiLeft toolbarL">
+                    <a>File</a>
+                    <a>Edit</a>
+                    <a>View</a>
+                </div>
+                <div class="col col-8 center editTools">
+                    <form class="item2">
+                        <p>Title: &nbsp;</p><input value='Untitled' onChange={this.handleChange}/>
+                    </form>
+                    <div class="item2">
+                        <p>Background Color: &nbsp;</p><div id="backColor" onClick={this.openBackColors}></div>
+                    </div>
+                    <div id="backgroundPicker">
+                        <ChromePicker color={this.state.background} onChangeComplete={this.changeBackground} />
+                    </div>
+                    <div class="item2">
+                        <p>Text Color: &nbsp;</p><div id="textColor" onClick={this.openTextColors}></div>
+                    </div>
+                    <div class="item2" id="textPicker">
+                        <ChromePicker color={this.state.foreground} onChangeComplete={this.changeText} />
+                    </div>
+                    <p>Font: </p><select class="item2" id="fontBox" onChange={this.setFont}>
+                        <option>Abril Fatface</option>
+                        <option selected>Alegreya Sans SC</option>
+                        <option>Audiowide</option>
+                        <option>Baloo Bhaijaan</option>
+                        <option>Comfortaa</option>
+                        <option>Lobster</option>
+                        <option>Patua One</option>
+                        <option>Righteous</option>
+                        <option>Shrikhand</option>
+                        <option>Special Elite</option>
+                    </select>
+                </div>
+                <div class="col col-1 antiRight toolbarR">
+                    <a>History</a>
+                    <a>Save</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container-full">
+                <div class="col col-2 antiLeft interact">
+                </div>
+                <div class="col col-8 antiRight" id="card">
+                    <h1 id="cardTitle" class="center">Untitled</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer><% include partials/footer %></footer>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="functionality.js"></script>
+</body>
+</html>

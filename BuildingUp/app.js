@@ -1,19 +1,28 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
+var engine = require('ejs-locals');
+var path = require('path');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+app.engine('ejs', engine);
 app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname + '/public')));
 
 app.get('/', function (req, res) {
-    res.sendFile('pages/profile');
+    res.render('profile');
+});
+
+app.get('/profile', function (req, res) {
+    res.render('profile');
 });
 
 app.get('/buildtool', function (req, res) {
-    res.sendFile('pages/buildtool');
+    res.render('buildtool');
 });
 
 app.get('/chat', function (req, res) {
-    res.sendFile('pages/chat');
+    res.render('chat');
 });
 
 var users = [];

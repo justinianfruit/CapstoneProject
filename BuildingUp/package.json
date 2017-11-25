@@ -9,7 +9,10 @@
   "author": "JBarry",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^2.5.7",
+    "ejs-locals": "^1.0.2",
     "express": "^4.16.2",
+    "simple-color-picker": "^0.1.2",
     "socket.io": "^2.0.4"
   }
 }
