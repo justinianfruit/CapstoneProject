@@ -23,7 +23,7 @@
                         <p>Title: &nbsp;</p><input value='Untitled' onChange={this.handleChange}/>
                     </form>
                     <div class="item2">
-                        <p>Background Color: &nbsp;</p><div id="backColor" onClick={this.openBackColors}></div>
+                        <p>Background Color: &nbsp;</p><div id="backColor" onClick='openBackColors()'></div><div id='backgroundPicker'></div>
                     </div>
                     <div id="backgroundPicker">
                         <ChromePicker color={this.state.background} onChangeComplete={this.changeBackground} />

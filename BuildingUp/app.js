@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var engine = require('ejs-locals');
+var ColorPicker = require('a-color-picker');
 var path = require('path');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -25,6 +25,11 @@ app.get('/chat', function (req, res) {
     res.render('chat');
 });
 
+var backColorPicker;
+if (document.getElementById("backgroundPicker") != null) {
+    backColorPicker.createPicker(document.getElementById('backgroundPicker'));
+}
+
 var users = [];
 io.on('connection', function (socket) {
     console.log('A user connected');
@@ -48,5 +53,5 @@ io.on('connection', function (socket) {
 });
 
 http.listen(3000, function () {
-    console.log('Listening on *:3000');
+    console.log('Listening on port 3000');
 });
