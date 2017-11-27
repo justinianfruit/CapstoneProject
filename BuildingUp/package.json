@@ -2,9 +2,9 @@
   "name": "socket-test",
   "version": "1.0.0",
   "description": "a project to learn socket.IO",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "author": "JBarry",
   "license": "ISC",
