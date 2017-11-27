@@ -1,27 +1,24 @@
 var express = require('express');
 var app = express();
 var path = require('path');
+var mongoose = require('mongoose');
+var passport = require('passport');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var port = process.env.PORT || 3000;
+var session = require('express-session');
+var configKeys = require('./config/keys');
+
+mongoose.connect(configKeys.mongoURI);
+require('./config/passport')(passport);
 
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname + '/public')));
+app.use(session({ secret: 'ilovecatsidfk'})); //session secret, not really sure what that means though
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.get('/', function (req, res) {
-    res.render('profile');
-});
-
-app.get('/profile', function (req, res) {
-    res.render('profile');
-});
-
-app.get('/buildtool', function (req, res) {
-    res.render('buildtool');
-});
-
-app.get('/chat', function (req, res) {
-    res.render('chat');
-});
+require('./app/routes.js')(app, passport);
 
 var users = [];
 io.on('connection', function (socket) {
@@ -61,6 +58,6 @@ io.on('connection', function (socket) {
     });
 });
 
-http.listen(3000, function () {
-    console.log('Listening on port 3000');
+http.listen(port, function () {
+    console.log('Listening on port ' + port);
 });

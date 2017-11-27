@@ -369,15 +369,17 @@ select {
   padding-left: 13px;
 }
 
-#navbar #hamburger, #navbar #hamburger2, #navbar #hamburger3, #navbar #hamburger4 {
+#navbar #hamburger {
   display: none;
 }
 
-#navbar #navContainer {
+#navbar #navContainer,
+#navbar #navContainer2 {
   display: flex;
 }
 
-#navbar #navContainer ul {
+#navbar #navContainer ul,
+#navbar #navContainer2 ul {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -385,7 +387,8 @@ select {
   list-style: none;
 }
 
-#navbar #navContainer ul li {
+#navbar #navContainer ul li,
+#navbar #navContainer2 ul li {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -393,7 +396,8 @@ select {
   height: 70px;
 }
 
-#navbar #navContainer ul li a {
+#navbar #navContainer ul li a,
+#navbar #navContainer2 ul li a {
   height: 70px;
   align-items: center;
   margin-top: 50px;
@@ -455,46 +459,6 @@ select {
   background: rgba(155, 155, 155, 0.4);
 }
 
-@-webkit-keyframes animatetop {
-  from {
-    top: -300px;
-    opacity: 0;
-  }
-  to {
-    top: 0;
-    opacity: 1;
-  }
-}
-
-@keyframes animatetop {
-  from {
-    top: -300px;
-    opacity: 0;
-  }
-  to {
-    top: 0;
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes zoom {
-  from {
-    -webkit-transform: scale(0);
-  }
-  to {
-    -webkit-transform: scale(1);
-  }
-}
-
-@keyframes zoom {
-  from {
-    transform: scale(0);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-
 @media all and (max-width: 1100px) {
   #navbar {
     box-shadow: none;
@@ -502,7 +466,7 @@ select {
   #navbar #navContainer {
     display: none;
   }
-  #navbar #hamburger, #navbar #hamburger2, #navbar #hamburger3, #navbar #hamburger4 {
+  #navbar #hamburger {
     display: flex;
     margin-top: 15px;
     margin-right: 20px;

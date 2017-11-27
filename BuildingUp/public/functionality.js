@@ -1,5 +1,51 @@
 var socket = io();
 
+function clickBurger() {
+    var menu = [
+        ['Profile', '/profile'],
+        ['Build Tool', '/buildtool'],
+        ['Chat', '/chat'],
+        ['Logout', '/logout']
+    ];
+    var nav = document.getElementById('navbar');
+    if (document.body.contains(nav)) {
+        //expanding nav when scaled down
+        var hamburger = document.getElementById("hamburger");
+        var open = false;
+        hamburger.onclick = function() {
+            if (open) {
+                open = false;
+            } else {
+                open = true;
+            }
+            displayNav(open, menu);
+        };
+    }
+}
+
+clickBurger();
+
+function displayNav(menuOpen, menuList) {
+    var nav = document.getElementById("dropNav");
+    if (document.body.contains(nav)) {
+        if (menuOpen) {
+            var dropMenu = '<ul class="item dropMenu">';
+            for (i = 0; i < menuList.length; i++) {
+                if (i == 0) {
+                    dropMenu += '<li class="first"><a href="' + menuList[i][1] + '">' + menuList[i][0] + '</a></li>';
+                } else {
+                    dropMenu += '<li><a href="' + menuList[i][1] + '">' + menuList[i][0] + '</a></li>';
+                }
+            }
+            dropMenu += '</ul>';
+            nav.innerHTML = dropMenu;
+            nav.style.display = "block";
+        } else {
+            nav.style.display = "none";
+        }
+    }
+}
+
 function setUsername() {
     socket.emit('setUsername', document.getElementById('name').value);
 }
