@@ -234,10 +234,19 @@ footer hr {
   margin-right: 20px;
 }
 
-.interact,
+#interact,
 #card {
-  height: 600px;
+  height: 900px;
   border: 1px solid black;
+}
+
+#interact {
+  flex-direction: row;
+}
+
+#card {
+  background-color: white;
+  text-align: center;
 }
 
 input {
@@ -272,53 +281,22 @@ select {
 }
 
 #backColor, #textColor {
-  cursor: pointer;
   display: inline-block;
-  border: 1px solid black;
-  width: 50px;
+  width: 76px;
   height: 30px;
   padding: 0;
   margin: 0;
-}
-
-#backColor {
-  background-color: white;
-}
-
-#textColor {
-  background-color: black;
-}
-
-#backgroundPicker, #textPicker {
-  display: none;
   text-align: center;
-  margin: 0 auto;
-}
-
-.modal {
-  position: absolute;
-  left: 50%;
-  right: 50%;
-  margin: 0 auto;
 }
 
 #colors {
   padding-bottom: 10px;
 }
 
-.interact {
-  flex-direction: row;
-}
-
-#card {
-  background-color: white;
-  text-align: center;
-}
-
 #cardTitle {
   min-height: 40px;
-  text-transform: capitalize;
   padding: 10px;
+  text-transform: uppercase;
 }
 
 .item {

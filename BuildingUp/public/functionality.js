@@ -28,12 +28,51 @@ socket.on('newmsg', function(data) {
     }
 });
 
-function openBackColors() {
-    console.log('trying to open color selector');
-    var one = document.getElementById('backColor');
-    var two = document.getElementById('backgroundPicker');
-    var rect = one.getBoundingClientRect();
-    two.style.top = rect.top + "px";
-    two.style.left = rect.left + "px";
-    document.getElementById('backgroundPicker').style.display = 'block';
+function changeTitle() {
+    console.log('changeTitle()');
+    var newTitle = document.getElementById("titleBox").value;
+    socket.emit('titleChange', {title: newTitle});
+    //document.getElementById("cardTitle").innerHTML = newTitle;
 }
+
+socket.on('newTitle', function(data) {
+    document.getElementById("cardTitle").innerHTML = data;
+});
+
+function updateBack(jscolor) {
+    console.log('updateBack(jscolor)');
+    //socket.emit('backChange', {color: jscolor});
+    document.getElementById('card').style.backgroundColor = '#' + jscolor;
+}
+
+socket.on('newBack', function(data){
+    document.getElementById('card').style.backgroundColor = '#' + data;
+});
+
+function updateText(jscolor) {
+    console.log('updateText(jscolor)');
+    //socket.emit('textChange', {color: jscolor});
+    document.getElementById('card').style.color = '#' + jscolor;
+}
+
+socket.on('newFore', function(data) {
+    document.getElementById('card').style.color = '#' + data;
+});
+
+function setFont() {
+    console.log('setFont()');
+    //this doesn't set the font family of entire div, figure out how to do that
+    var listValue = document.getElementById('fontBox').value;
+    var general = "";
+    if (listValue == "Alegreya Sans SC") {
+        general = "sans-serif";
+    } else {
+        general = "cursive";
+    }
+    //socket.emit('fontChange', {font: listValue, family: general});
+    document.getElementById('cardTitle').style.fontFamily = listValue;
+}
+
+socket.on('newFont', function(data) {
+    document.getElementById('cardTitle').style.fontFamily = data.font;
+});

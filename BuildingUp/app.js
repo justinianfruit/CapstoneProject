@@ -1,11 +1,9 @@
 var express = require('express');
 var app = express();
-var ColorPicker = require('a-color-picker');
 var path = require('path');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-app.engine('ejs', engine);
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname + '/public')));
 
@@ -25,11 +23,6 @@ app.get('/chat', function (req, res) {
     res.render('chat');
 });
 
-var backColorPicker;
-if (document.getElementById("backgroundPicker") != null) {
-    backColorPicker.createPicker(document.getElementById('backgroundPicker'));
-}
-
 var users = [];
 io.on('connection', function (socket) {
     console.log('A user connected');
@@ -44,6 +37,22 @@ io.on('connection', function (socket) {
     socket.on('msg', function(data) {
         //send msg to everyone
         io.sockets.emit('newmsg', data);
+    });
+    socket.on('titleChange', function(data) {
+        console.log('Title was changed.');
+        io.sockets.emit('newTitle', data);
+    });
+    socket.on('backChange', function(data) {
+        console.log('Background color was changed.');
+        io.sockets.emit('newBack', data);
+    });
+    socket.on('textChange', function(data) {
+        console.log('Text color was changed.');
+        io.sockets.emit('newFore', data); 
+    });
+    socket.on('fontChange', function(data) {
+        console.log('Font was changed.');
+        io.sockets.emit('newFont', data);
     });
 
     //whenever someone disconnects

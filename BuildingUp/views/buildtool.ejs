@@ -20,21 +20,15 @@
                 </div>
                 <div class="col col-8 center editTools">
                     <form class="item2">
-                        <p>Title: &nbsp;</p><input value='Untitled' onChange={this.handleChange}/>
+                        <p>Title: &nbsp;</p><input id="titleBox" value='Untitled' onInput="changeTitle()"/>
                     </form>
                     <div class="item2">
-                        <p>Background Color: &nbsp;</p><div id="backColor" onClick='openBackColors()'></div><div id='backgroundPicker'></div>
-                    </div>
-                    <div id="backgroundPicker">
-                        <ChromePicker color={this.state.background} onChangeComplete={this.changeBackground} />
+                        <p>Background Color: </p><input id="backColor" class="jscolor" value="#FFFFFF" onChange="updateBack(this.jscolor)">
                     </div>
                     <div class="item2">
-                        <p>Text Color: &nbsp;</p><div id="textColor" onClick={this.openTextColors}></div>
+                        <p>Text Color: </p><input id="textColor" class="jscolor" value="#000000" onChange="updateText(this.jscolor)">
                     </div>
-                    <div class="item2" id="textPicker">
-                        <ChromePicker color={this.state.foreground} onChangeComplete={this.changeText} />
-                    </div>
-                    <p>Font: </p><select class="item2" id="fontBox" onChange={this.setFont}>
+                    <p>Font: </p><select class="item2" id="fontBox" onChange="setFont()">
                         <option>Abril Fatface</option>
                         <option selected>Alegreya Sans SC</option>
                         <option>Audiowide</option>
@@ -54,8 +48,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="container-full">
-                <div class="col col-2 antiLeft interact">
+            <div class="container-full" id="fullTool">
+                <div class="col col-2 antiLeft" id="interact">
                 </div>
                 <div class="col col-8 antiRight" id="card">
                     <h1 id="cardTitle" class="center">Untitled</h1>
@@ -66,5 +60,6 @@
     <footer><% include partials/footer %></footer>
     <script src="/socket.io/socket.io.js"></script>
     <script src="functionality.js"></script>
+    <script src="jscolor.js"></script>
 </body>
 </html>
