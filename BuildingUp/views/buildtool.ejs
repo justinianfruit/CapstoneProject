@@ -3,7 +3,7 @@
 <head><% include partials/head %></head>
 <body>
     <header><% include partials/header %></header>
-    <div>
+    <div id="tool-body">
         <div class="row">
             <div class="container-large">
                 <div class="col col-10 center">
@@ -11,55 +11,70 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row tools">
             <div class="container-full tools">
-                <div class="col col-1 antiLeft toolbarL">
-                    <a>File</a>
-                    <a>Edit</a>
-                    <a>View</a>
+                <div class="col col-2 leftTools">
+                    <button type="button" onClick="showForm()" id="collab">Collaborate</button>
+                    <div id="inviteForm">
+                        <form onSubmit="">
+                            <p>Invite team member:</p>
+                            <input id="emailEntry" default="user@gmail.com"><button type="button">Send Invite</button>
+                        </form>
+                    </div>
+                    <button type="button" disabled>Save</button>
                 </div>
-                <div class="col col-8 center editTools">
-                    <form class="item2">
+                <div class="col col-6 editTools">
+                    <div class="item2">
                         <p>Title: &nbsp;</p><input id="titleBox" value='Untitled' onInput="changeTitle()"/>
-                    </form>
-                    <div class="item2">
-                        <p>Background Color: </p><input id="backColor" class="jscolor" value="#FFFFFF" onChange="updateBack(this.value)">
                     </div>
                     <div class="item2">
-                        <p>Text Color: </p><input id="textColor" class="jscolor" value="#000000" onChange="updateText(this.value)">
+                        <p>Background Color: &nbsp;</p><input id="backColor" class="jscolor" value="#FFFFFF" onChange="updateBack(this.value)">
                     </div>
-                    <p>Font: </p><select class="item2" id="fontBox" onChange="setFont()">
-                        <option>Abril Fatface</option>
-                        <option selected>Alegreya Sans SC</option>
-                        <option>Audiowide</option>
-                        <option>Baloo Bhaijaan</option>
-                        <option>Comfortaa</option>
-                        <option>Lobster</option>
-                        <option>Patua One</option>
-                        <option>Righteous</option>
-                        <option>Shrikhand</option>
-                        <option>Special Elite</option>
-                    </select>
+                    <div class="item2">
+                        <p>Text Color: &nbsp;</p><input id="textColor" class="jscolor" value="#000000" onChange="updateText(this.value)">
+                    </div>
+                    <div class="item2">
+                        <p>Font: &nbsp;</p><select id="fontBox" onChange="setFont()">
+                            <option>Abril Fatface</option>
+                            <option selected>Alegreya Sans SC</option>
+                            <option>Audiowide</option>
+                            <option>Barlow Condensed</option>
+                            <option>Comfortaa</option>
+                            <option>Lato</option>
+                            <option>Lobster</option>
+                            <option>Open Sans</option>
+                            <option>PT Sans</option>
+                            <option>Special Elite</option>
+                            <option>Titillium Web</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col col-1 antiRight toolbarR">
-                    <a>History</a>
-                    <a>Save</a>
+                <div class="col col-2 antiRight">
+                    <button type="button" disabled>History</button>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="container-full" id="fullTool">
-                <div class="col col-2 antiLeft" id="interact">
-                </div>
-                <div class="col col-8 antiRight" id="card">
+            <div class="container-full">
+                <div class="col col-10" id="interact"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container-full">
+                <div class="col col-10" id="card">
                     <h1 id="cardTitle" class="center">Untitled</h1>
                 </div>
             </div>
         </div>
     </div>
     <footer><% include partials/footer %></footer>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="functionality.js"></script>
     <script src="jscolor.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        var mailer = mailer;
+        var from = from;
+        var password = password;
+    </script>
+    <script src="functionality.js"></script>
 </body>
 </html>

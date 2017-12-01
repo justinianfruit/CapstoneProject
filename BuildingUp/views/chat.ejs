@@ -8,10 +8,13 @@
             <div class="col col-10 center">
                 <h1>Chat</h1>
             </div>
-            <div class="col col-10" id="sudo-body">
+        </div>
+    </div>
+    <div class='row'>
+        <div class="container-large">            <div class="col col-10" id="sudo-body">
                 <div id="error-container"></div>
-                <input id="name" type="text" name="name" value="" placeholder="Enter your name!">
-                <button type="button" name="button" onclick="setUsername()">Let Me Chat!</button>
+                <input id="username" type="text" name="name" value="" placeholder="Enter your name!" onkeydown="enter()">
+                <button id="enterChat" type="button" name="button" onclick="setUsername()">Let Me Chat!</button>
             </div>
         </div>
     </div>

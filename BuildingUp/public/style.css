@@ -134,6 +134,12 @@ button:active {
   background: linear-gradient(#5E615D, #919490);
 }
 
+button:disabled {
+  border: 2px solid #B7BAB6;
+  color: #eaeaea;
+  background: #919490;
+}
+
 .sample {
   margin-top: 30px;
 }
@@ -166,12 +172,12 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0px 15px;
 }
 
-p {
-  padding: 10px 20px;
+.profileHeading {
+  margin: 0;
 }
 
-.justify {
-  text-align: justify;
+p {
+  padding: 10px 20px;
 }
 
 .center {
@@ -195,94 +201,151 @@ footer hr {
   border: 0;
   max-width: 1170px;
   height: 2px;
-  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(68,77,62, 0.95), rgba(0, 0, 0, 0));
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(68,77,62, 1), rgba(0, 0, 0, 0));
+}
+
+#inviteForm {
+  display: none;
+  margin-left: 8px;
+  background-color: #DDE0DC;
+  border: 2px solid #5E615D;
 }
 
 .tools {
+  margin: 0;
+  padding: 0;
   vertical-align: middle;
+  font-size: 16px;
 }
 
-.toolbarL a {
-  background-color: #DDE0DC;
-  border: 1px solid black;
-  padding: 5px;
-  cursor: pointer;
-  margin: auto 5px;
+.tools button {
+  font-size: 90%;
+}
+
+.leftTools {
+  flex-direction: row;
+  margin-left: 3px;
 }
 
 .editTools {
+  display: flex;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
   flex-direction: row;
+  height: 30px;
+  vertical-align: middle;
+  text-align: center;
 }
 
-.toolbarR {
-  text-align: right;
+.editTools div {
+  display: inline-block;
+  margin: 0;
+  padding: 0 10px;
 }
 
-.toolbarR a {
-  background-color: #DDE0DC;
-  border: 1px solid black;
-  padding: 5px;
+.editTools p {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  height: 30px;
+}
+
+.editTools input {
+  padding: 0;
+  height: 30px;
+}
+
+.editTools select {
+  display: inline-block;
   cursor: pointer;
-  margin: auto 5px;
-}
-
-.antiLeft {
-  margin-left: 10px;
+  padding: 0;
+  height: 30px;
+  width: 160px;
+  font-size: 16px;
 }
 
 .antiRight {
-  margin-right: 20px;
-}
-
-#interact,
-#card {
-  height: 900px;
-  border: 1px solid black;
+  margin-right: 13px;
+  text-align: right;
 }
 
 #interact {
   flex-direction: row;
+  min-height: 150px;
+  max-height: 200px;
+  border: 1px solid black;
+  margin-left: 10px;
+  margin-right: 22px;
 }
 
 #card {
+  height: 900px;
   background-color: white;
+  text-align: center;
+  margin-left: 10px;
+  margin-right: 22px;
+}
+
+#sudo-body {
   text-align: center;
 }
 
-input {
-  width: 140px;
-  height: 28px;
-  font-size: 20px;
+#message-container {
+  background-color: white;
+  height: 430px;
+  text-align: left;
+  flex-wrap: wrap;
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow-y: auto;
 }
 
-.chat {
-  width: 100%;
-  background-color: #DDE0DC;
-  height: 550px;
-}
-
-.messageBox input,
-.messageBox button {
-  width: 100%;
-  height: 35px;
-}
-
-.messageBox button {
-  align-self: right;
-  padding: 0;
+#chatlog {
   margin: 0;
-  height: 41px;
+  padding: 0;
 }
 
-select {
-  cursor: pointer;
-  height: 32px;
-  font-size: 20px;
+#chatlog li {
+  margin: 0;
+  padding: 5px;
+}
+
+#chatlog li:nth-child(even) {
+  background-color: #E0EFF1;
+}
+
+#enterChat {
+  height: 40px;
+  margin: 0;
+}
+
+#username, #message {
+  padding: 0px;
+  margin: 0px;
+  width: 50%;
+  height: 35px;
+  font-size: 18px;
+}
+
+#messageEntry {
+  width: 100%;
+  margin-top: 10px;
+}
+
+#message {
+  width: 90%;
+}
+
+#sendMsg {
+  margin: 0;
+  width: 9%;
 }
 
 #backColor, #textColor {
   display: inline-block;
-  width: 76px;
+  width: 75px;
   height: 30px;
   padding: 0;
   margin: 0;
@@ -311,26 +374,6 @@ select {
   display: flex;
   flex-direction: row;
   vertical-align: middle;
-}
-
-.editTools {
-  flex-direction: row;
-}
-
-.editTools form {
-  display: inline-block;
-}
-
-.editTools div {
-  display: inline-block;
-}
-
-.editTools p {
-  display: inline-block;
-}
-
-.editTools select {
-  display: inline-block;
 }
 
 #navbar {
@@ -511,11 +554,24 @@ select {
     font-weight: bold;
     cursor: pointer;
   }
+  #tool-body {
+    position: relative;
+  }
+  #dropNav {
+    text-align: right;
+    background-color: #DDE0DC;
+  }
   .dropMenu {
     display: flex;
     flex-direction: column;
     margin: 0;
     padding: 0;
+    margin-left: 70%;
+    text-align: right;
+    width: 30%;
+    background-color: #DDE0DC;
+    position: absolute;
+    z-index: 1;
   }
   .dropMenu .first {
     border-top: 1px solid #eee;
@@ -527,6 +583,8 @@ select {
     font-weight: bold;
     font-size: 16px;
     color: #fff;
+    padding: 10px;
+    padding-right: 20px;
     list-style-type: none;
   }
   .dropMenu li:hover {
@@ -560,15 +618,6 @@ select {
   display: inline-block;
 }
 
-.example {
-  border: 1px solid #000;
-}
-
-.example p {
-  padding: 0px;
-  margin: 0px;
-}
-
 .container-full {
   display: flex;
   flex-flow: row wrap;
@@ -578,43 +627,43 @@ select {
 }
 
 .container-full .col-1 {
-  flex: 1 146px;
+  flex: 1 141px;
 }
 
 .container-full .col-2 {
-  flex: 1 292px;
+  flex: 1 287px;
 }
 
 .container-full .col-3 {
-  flex: 1 438px;
+  flex: 1 433px;
 }
 
 .container-full .col-4 {
-  flex: 1 584px;
+  flex: 1 579px;
 }
 
 .container-full .col-5 {
-  flex: 1 730px;
+  flex: 1 725px;
 }
 
 .container-full .col-6 {
-  flex: 1 876px;
+  flex: 1 871px;
 }
 
 .container-full .col-7 {
-  flex: 1 1022px;
+  flex: 1 1017px;
 }
 
 .container-full .col-8 {
-  flex: 1 1168px;
+  flex: 1 1163px;
 }
 
 .container-full .col-9 {
-  flex: 1 1314px;
+  flex: 1 1309px;
 }
 
 .container-full .col-10 {
-  flex: 1 1460px;
+  flex: 1 1455px;
 }
 
 .container-large {
