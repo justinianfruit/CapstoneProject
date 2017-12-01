@@ -16,9 +16,9 @@
                 <div class="col col-2 leftTools">
                     <button type="button" onClick="showForm()" id="collab">Collaborate</button>
                     <div id="inviteForm">
-                        <form onSubmit="">
+                        <form method="post" action="/sendInvite">
                             <p>Invite team member:</p>
-                            <input id="emailEntry" default="user@gmail.com"><button type="button">Send Invite</button>
+                            <input id="emailEntry"><input type="Sumbit" onClick="invite()">Send Invite</button>
                         </form>
                     </div>
                     <button type="button" disabled>Save</button>
@@ -70,11 +70,6 @@
     <footer><% include partials/footer %></footer>
     <script src="jscolor.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript">
-        var mailer = mailer;
-        var from = from;
-        var password = password;
-    </script>
     <script src="functionality.js"></script>
 </body>
 </html>

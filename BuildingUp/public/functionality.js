@@ -115,32 +115,55 @@ function showForm() {
     var form = document.getElementById('inviteForm');
     form.style.display = 'block';
     form.style.position = 'absolute';
-    form.style.top = btn.offset().top + btn.outerHeight() + 10;
+    form.style.top = btn.style.top + btn.style.outerHeight + 10;
 }
 
 function invite() {
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'youremail@gmail.com',
-            pass: 'yourpassword'
-        }
-    });
+    var to = document.getElementById('emailEntry').value;
+    if (to.includes('@gmail.com')) {
+        var transporter = mailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: from,
+                pass: pass
+            }
+        });
 
-    var mailOptions = {
-        from: 'youremail@gmail.com',
-        to: 'myfriend@yahoo.com',
-        subject: 'Sending Email using Node.js',
-        text: 'That was easy!'
-    };
+        var mailOptions = {
+            from: from,
+            to: to,
+            subject: 'Invitiation to Collaborate on Quid Proto Co!',
+            text: '<p>You have been invited by /USER/ to collaborate on their project /PROJECT TITLE/. Click the following link to begin work!</p><br><a href="https://quid-proto-co.herokuapp.com>/PROJECT TITLE/</a>'
+        };
 
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                var form = document.getElementById('inviteForm');
+                form.style.display = 'none';
+                console.log('Email sent: ' + info.response);
+            }
+        });
+    } else {
+        
+    }
+}
+
+//build up all necessary for modal to pop up if they enter an invalid email
+function modalInteractivity() {
+    var firstModal = document.getElementById("");
+
+    if (document.body.contains(firstModal)) {
+        var modal1 = document.getElementById('firstModal');
+        var close1 = document.getElementById('close1');
+        btn1.onclick = function() {
+            modal1.style.display = "block";
         }
-    });
+        close1.addEventListener("click", function() {
+            modal1.style.display = "none";
+        });
+    }
 }
 
 //tool functionality

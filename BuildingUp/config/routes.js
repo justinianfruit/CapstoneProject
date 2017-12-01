@@ -15,6 +15,10 @@ module.exports = function(app, mailer, fromEmail, fromPassword) {
         });
     });
 
+    app.post('/sendInvite', function(req, res) {
+
+    });
+
     app.get('/chat', function (req, res) {
         res.render('chat');
     });
