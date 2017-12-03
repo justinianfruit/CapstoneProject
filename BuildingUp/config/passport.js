@@ -1,35 +1,46 @@
-var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-var User = require('../models/User');
+var User = require('../models/user');
 var configAuth = require('./keys');
 
-passport.serializeUser(function (user, done) {
-    done(null, user.id);
-});
-
-passport.deserializeUser(function (id, done) {
-    User.findById(id, function (err, user) {
-        done(err, user);
+module.exports = function (passport) {
+    passport.serializeUser(function (user, done) {
+        done(null, user.id);
     });
-});
 
-passport.use(new GoogleStrategy({
-        clientID: configAuth.googleClientID,
-        clientSecret: configAuth.googleClientSecret,
-        callbackURL: 'auth/google/callback'
-    },
-    async (token, refreshToken, profile, done) => {
-        const existingUser = await User.findOne({ googleId: profile.id });
-        if (existingUser) {
-            return done(null, existingUser);
+    passport.deserializeUser(function (id, done) {
+        User.findById(id, function (err, user) {
+            done(err, user);
+        });
+    });
+
+    passport.use(new GoogleStrategy({
+            clientID: configAuth.googleClientID,
+            clientSecret: configAuth.googleClientSecret,
+            callbackURL: '/auth/google/callback',
+        },
+        function (token, refreshToken, profile, done) {
+            process.nextTick(function () {
+                User.findOne({
+                    'google.id': profile.id
+                }, function (err, user) {
+                    if (err)
+                        return done(err);
+                    if (user) {
+                        return done(null, user);
+                    } else {
+                        var newUser = new User();
+                        newUser.googleId = profile.id;
+                        newUser.googleToken = token;
+                        newUser.name = profile.displayName;
+                        newUser.email = profile.emails[0].value;
+                        newUser.save(function (err) {
+                            if (err)
+                                throw err;
+                            return done(null, newUser);
+                        });
+                    }
+                });
+            });
         }
-        const user = await new User(
-            { 
-                googleId: profile.id,
-                googleToken: token,
-                name: profile.displayName,
-                email: profile.emails[0].value
-            }).save();
-        done(null, user);
-    }
-));
+    ));
+}

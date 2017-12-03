@@ -14,7 +14,7 @@ var keys = require('./config/keys');
 var port = process.env.PORT || 3000;
 
 mongoose.connect(keys.mongoURI);
-require('./config/passport');
+require('./config/passport')(passport);
 
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname + '/public')));

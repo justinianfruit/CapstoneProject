@@ -2,6 +2,26 @@ module.exports = function(app, urlEncodedParser, mailer, fromEmail, fromPassword
     app.get('/', function (req, res) {
         res.render('landing');
     });
+    
+    app.get('/auth/google', passport.authenticate('google', 
+        {
+            scope: ['profile', 'email'],
+            prompt: 'select_account'
+        }
+    ));
+
+    app.get(
+        '/auth/google/callback', 
+        passport.authenticate('google'), 
+        (req, res) => {
+            res.redirect('/profile');
+        }
+    );
+
+    app.get('/logout', (req, res) => {
+        req.logout();
+        res.redirect('/');
+    });
 
     app.get('/profile', function (req, res) {
         res.render('profile', {user: req.user});
@@ -40,24 +60,6 @@ module.exports = function(app, urlEncodedParser, mailer, fromEmail, fromPassword
 
     app.get('/chat', function (req, res) {
         res.render('chat');
-    });
-
-    app.get('/auth/google', passport.authenticate('google', {
-        scope: ['profile', 'email'],
-        prompt: 'select_account'
-    }));
-
-    app.get(
-        '/auth/google/callback', 
-        passport.authenticate('google'), 
-        (req, res) => {
-            res.redirect('/profile');
-        }
-    );
-
-    app.get('/logout', (req, res) => {
-        req.logout();
-        res.redirect('/');
     });
 };
 
