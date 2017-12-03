@@ -1,15 +1,7 @@
-module.exports = function(app, passport) {
+module.exports = function(app, urlencodedParser, passport) {
     app.get('/', function(req, res) {
         res.render('index.ejs');
     });
-    // app.get('/login', function(req, res) {
-    //     res.render('login.ejs', {message: req.flash('loginMessage')});
-    // });
-    // //app.post('/login', passport stuff);
-    // app.get('/signup', function(req, res) {
-    //     res.render('signup.ejs', {message: req.flash('signupMessage')});
-    // });
-    //app.post('/signup', passport stuff);
     app.get('/profile', isLoggedIn, function(req, res) {
         res.render('profile.ejs', {user: req.user});
     });

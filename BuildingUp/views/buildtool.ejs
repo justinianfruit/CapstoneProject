@@ -18,22 +18,24 @@
                     <div id="inviteForm">
                         <form method="post" action="/sendInvite">
                             <p>Invite team member:</p>
-                            <input id="emailEntry"><input type="Sumbit" onClick="invite()">Send Invite</button>
+                            <input type="text" name="email" id="emailEntry" onInput="checkEmail()">
+                            <input id="sendEmail" type="submit" onClick="invite()" value="Send Invite" disabled>
                         </form>
                     </div>
                     <button type="button" disabled>Save</button>
+                    <button type="button" disabled>History</button>
                 </div>
-                <div class="col col-6 editTools">
-                    <div class="item2">
+                <div class="col col-8 editTools">
+                    <div>
                         <p>Title: &nbsp;</p><input id="titleBox" value='Untitled' onInput="changeTitle()"/>
                     </div>
-                    <div class="item2">
+                    <div>
                         <p>Background Color: &nbsp;</p><input id="backColor" class="jscolor" value="#FFFFFF" onChange="updateBack(this.value)">
                     </div>
-                    <div class="item2">
+                    <div>
                         <p>Text Color: &nbsp;</p><input id="textColor" class="jscolor" value="#000000" onChange="updateText(this.value)">
                     </div>
-                    <div class="item2">
+                    <div>
                         <p>Font: &nbsp;</p><select id="fontBox" onChange="setFont()">
                             <option>Abril Fatface</option>
                             <option selected>Alegreya Sans SC</option>
@@ -48,9 +50,6 @@
                             <option>Titillium Web</option>
                         </select>
                     </div>
-                </div>
-                <div class="col col-2 antiRight">
-                    <button type="button" disabled>History</button>
                 </div>
             </div>
         </div>

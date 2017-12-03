@@ -1,9 +1,5 @@
 var socket = io();
 var open = false;
-var mailer = mailer;
-var from = from;
-var pass = password;
-console.log(from + " " + pass);
 
 //nav functionality
 
@@ -118,36 +114,20 @@ function showForm() {
     form.style.top = btn.style.top + btn.style.outerHeight + 10;
 }
 
-function invite() {
+function checkEmail() {
+    var goodEmail = false;
     var to = document.getElementById('emailEntry').value;
+    var btn = document.getElementById('sendEmail');
+    btn.disabled = true;
     if (to.includes('@gmail.com')) {
-        var transporter = mailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: from,
-                pass: pass
-            }
-        });
-
-        var mailOptions = {
-            from: from,
-            to: to,
-            subject: 'Invitiation to Collaborate on Quid Proto Co!',
-            text: '<p>You have been invited by /USER/ to collaborate on their project /PROJECT TITLE/. Click the following link to begin work!</p><br><a href="https://quid-proto-co.herokuapp.com>/PROJECT TITLE/</a>'
-        };
-
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error);
-            } else {
-                var form = document.getElementById('inviteForm');
-                form.style.display = 'none';
-                console.log('Email sent: ' + info.response);
-            }
-        });
-    } else {
-        
+        goodEmail = true;
+        btn.disabled = false;
     }
+    return goodEmail;
+}
+
+function invite() {
+    document.getElementById('inviteForm').style.display = 'none';
 }
 
 //build up all necessary for modal to pop up if they enter an invalid email

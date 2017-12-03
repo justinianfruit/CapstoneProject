@@ -17,13 +17,15 @@ app.use(morgan('dev')); //logs every request to the console
 app.use(cookieParser()); //reads cookies, needed for auth
 app.use(bodyParser()); //gets info from html forms
 
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+
 app.set('view engine', 'ejs');
-app.use(session({ secret: 'ilovecatsidfk'})); //session secret, not really sure what that means though
+app.use(session({ secret: 'ilovecatsidfk', saveUninitialized: true, resave: true})); //session secret, not really sure what that means though
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-require('./app/routes.js')(app, passport);
+require('./app/routes.js')(app, urlencodedParser, passport);
 
 app.listen(port);
 console.log('Listening on port ' + port);
