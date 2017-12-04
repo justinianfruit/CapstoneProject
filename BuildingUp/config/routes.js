@@ -28,7 +28,7 @@ module.exports = function(app, urlEncodedParser, mailer, fromEmail, fromPassword
     });
 
     app.get('/buildtool', isLoggedin, function (req, res) {
-        res.render('buildtool');
+        res.render('buildtool', {user: req.user.name});
     });
 
     app.post('/sendInvite', urlEncodedParser, function(req, res) {

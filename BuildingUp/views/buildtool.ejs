@@ -13,8 +13,8 @@
         </div>
         <div class="row tools">
             <div class="container-full tools">
-                <div class="col col-2 leftTools">
-                    <button type="button" onClick="showForm()" id="collab">Collaborate</button>
+                <div class="col col-1 leftTools">
+                    <button type="button" onClick="showForm()" id="collab">Invite</button>
                     <div id="inviteForm">
                         <form method="post" action="/sendInvite">
                             <p>Invite team member:</p>
@@ -23,7 +23,6 @@
                         </form>
                     </div>
                     <button type="button" disabled>Save</button>
-                    <button type="button" disabled>History</button>
                 </div>
                 <div class="col col-8 editTools">
                     <div>
@@ -51,9 +50,21 @@
                         </select>
                     </div>
                 </div>
+                <div class="col col-1 rightTools">
+                    <button type="button" disabled>History</button>
+                    <button id="chatBtn" type="button" onClick="showChat()">Chat</button>
+                </div>
             </div>
         </div>
         <div class="row">
+            <div id="chatWindow">
+                <div id="message-container">
+                    <ul id="chatlog"></ul>
+                </div>
+                <div id="messageEntry">
+                    <input type="text" id="message" onkeydown="enterMsg()" maxlength="300" autofocus><button id="sendMsg" type="button" name="button" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
             <div class="container-full">
                 <div class="col col-10" id="interact"></div>
             </div>
@@ -70,6 +81,9 @@
     <footer><% include partials/footer %></footer>
     <script src="jscolor.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        var username = "<%- user %>";
+    </script>
     <script src="functionality.js"></script>
 </body>
 </html>

@@ -270,7 +270,8 @@ header {
   color: white;
 }
 
-button {
+button,
+#sendEmail {
   border: 2px solid #B7BAB6;
   color: white;
   text-shadow: 1px 1px 0 black;
@@ -284,7 +285,8 @@ button {
   font-size: 16px;
 }
 
-button:hover {
+button:hover,
+#sendEmail:hover {
   border: 2px solid #B7BAB6;
   color: #eaeaea;
   background: #919490;
@@ -292,7 +294,8 @@ button:hover {
   background: linear-gradient(#5E615D, #919490);
 }
 
-button:active {
+button:active,
+#sendEmail:active {
   border: 2px solid #B7BAB6;
   color: #eaeaea;
   background: #919490;
@@ -300,10 +303,34 @@ button:active {
   background: linear-gradient(#5E615D, #919490);
 }
 
-button:disabled {
+button:disabled,
+#sendEmail:disabled {
   border: 2px solid #B7BAB6;
   color: #eaeaea;
   background: #919490;
+}
+
+#profileInfo {
+  display: flex;
+  margin: 0 auto;
+}
+
+#pic,
+#profileName {
+  display: inline-block;
+}
+
+#pic {
+  padding: 0;
+  margin: 0;
+  border-radius: 50%;
+}
+
+#profileName {
+  padding: 0;
+  margin: 0;
+  margin-left: 15px;
+  margin-top: 8px;
 }
 
 .striped {
@@ -369,6 +396,26 @@ footer hr {
   margin-left: 8px;
   background-color: #DDE0DC;
   border: 2px solid #5E615D;
+}
+
+#inviteForm p {
+  margin-left: -9px;
+}
+
+#inviteForm input {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+#emailEntry {
+  width: 175px;
+  height: 29px;
+}
+
+#sendEmail {
+  margin: 0;
+  margin-right: 10px;
+  font-size: 14px;
 }
 
 .tools {
@@ -465,13 +512,20 @@ footer hr {
   text-transform: uppercase;
 }
 
-#sudo-body {
-  text-align: center;
+#chatWindow {
+  display: none;
+  z-index: 3;
+  width: 400px;
+  position: absolute;
+  right: 0;
+  background-color: #DDE0DC;
+  border: 2px solid #5E615D;
+  margin-right: 11px;
 }
 
 #message-container {
   background-color: white;
-  height: 430px;
+  height: 600px;
   text-align: left;
   flex-wrap: wrap;
   word-wrap: break-word;
@@ -493,31 +547,14 @@ footer hr {
   background-color: #E0EFF1;
 }
 
-#enterChat {
-  height: 40px;
-  margin: 0;
-}
-
-#username, #message {
-  padding: 0px;
-  margin: 0px;
-  width: 50%;
-  height: 35px;
-  font-size: 18px;
-}
-
 #messageEntry {
   width: 100%;
-  margin-top: 10px;
+  margin: 10px;
 }
 
 #message {
-  width: 90%;
-}
-
-#sendMsg {
-  margin: 0;
-  width: 9%;
+  width: 297px;
+  height: 30px;
 }
 
 #backColor, #textColor {

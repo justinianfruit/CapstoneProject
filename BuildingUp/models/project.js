@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const projectSchema = mongoose.Schema({
     projectId: String,
     users: [],
+    group: Boolean,
     title: {
         text: String,
         background: String,

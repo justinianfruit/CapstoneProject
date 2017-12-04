@@ -1,5 +1,8 @@
 var socket = io();
 var open = false;
+var user = username;
+console.log(user);
+document.getElementById('chatWindow').style.display = 'none';
 
 function updatePicture() {
     var canvas = document.getElementById('project');
@@ -11,7 +14,6 @@ function updatePicture() {
 
 function clickBurger() {
     var nav = document.getElementById('navbar');
-
     if (document.body.contains(nav)) {
         //expanding nav when scaled down
         var hamburger = document.getElementById("hamburger");
@@ -63,27 +65,18 @@ function displayNav() {
 
 //chat functionality
 
-function enter() {
-    if (event.key === "Enter") {
-        setUsername();
+function showChat() {
+    var chat = document.getElementById('chatWindow');
+    var btn = document.getElementById('chatBtn');
+    if (chat.style.display == "none") {
+        chat.style.display = "block";
+        chat.style.top = btn.style.top + btn.style.outerHeight + 10;
+        var elem = document.getElementById('message-container');
+        elem.scrollTop = elem.scrollHeight;
+    } else {
+        chat.style.display = "none";
     }
 }
-
-function setUsername() {
-    socket.emit('setUsername', document.getElementById('username').value);
-}
-
-var user;
-socket.on('userExists', function (data) {
-    document.getElementById('error-container').innerHTML = data;
-});
-
-socket.on('userSet', function (data) {
-    user = data.username;
-    var sudoBody = document.getElementById('sudo-body');
-    sudoBody.innerHTML = '';
-    sudoBody.innerHTML = '<div id="message-container"><ul id="chatlog"></ul></div><div id="messageEntry"><input type="text" id="message" onkeydown="enterMsg()" maxlength="300" autofocus><button id="sendMsg" type="button" name="button" onclick="sendMessage()">Send</button></div>';
-});
 
 function enterMsg(box) {
     if (event.key === "Enter") {
@@ -97,17 +90,15 @@ function sendMessage() {
     if (msg) {
         socket.emit('msg', {
             message: msg,
-            user: user
+            name: user
         });
     }
 }
 
 socket.on('newmsg', function (data) {
-    if (user) {
-        document.getElementById('chatlog').innerHTML += '<li><b>' + data.user + '</b>: ' + data.message + '</li>';
-        var elem = document.getElementById('message-container');
-        elem.scrollTop = elem.scrollHeight;
-    }
+    document.getElementById('chatlog').innerHTML += '<li><b>' + data.name + '</b>: ' + data.message + '</li>';
+    var elem = document.getElementById('message-container');
+    elem.scrollTop = elem.scrollHeight;
 });
 
 //invite functionality
@@ -115,9 +106,13 @@ socket.on('newmsg', function (data) {
 function showForm() {
     var btn = document.getElementById('collab');
     var form = document.getElementById('inviteForm');
-    form.style.display = 'block';
-    form.style.position = 'absolute';
-    form.style.top = btn.style.top + btn.style.outerHeight + 10;
+    if (form.style.display == 'block') {
+        form.style.display = 'none';
+    } else {
+        form.style.display = 'block';
+        form.style.position = 'absolute';
+        form.style.top = btn.style.top + btn.style.outerHeight + 10;
+    }
 }
 
 function checkEmail() {

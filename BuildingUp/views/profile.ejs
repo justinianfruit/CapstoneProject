@@ -10,6 +10,13 @@
             </div>
         </div>
     </div>
+    <div class="row center">
+        <div class="container-large center">
+            <div class="col col-10 center" id="profileInfo">
+                <img id="pic" src="<%= user.imageURL %>" alt=""><h2 id="profileName">Welcome, <%= user.name %>!</h2>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="container-large">
             <div class="col col-10">
@@ -84,7 +91,5 @@
         </div>
     </div>
     <footer><% include partials/footer %></footer>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="functionality.js"></script>
 </body>
 </html>
