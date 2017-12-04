@@ -445,11 +445,24 @@ footer hr {
 }
 
 #card {
-  height: 900px;
+  height: 800px;
   background-color: white;
   text-align: center;
   margin-left: 10px;
   margin-right: 22px;
+}
+
+#project {
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+#cardTitle {
+  z-index: 2;
+  min-height: 40px;
+  padding: 10px;
+  text-transform: uppercase;
 }
 
 #sudo-body {
@@ -518,12 +531,6 @@ footer hr {
 
 #colors {
   padding-bottom: 10px;
-}
-
-#cardTitle {
-  min-height: 40px;
-  padding: 10px;
-  text-transform: uppercase;
 }
 
 .item {

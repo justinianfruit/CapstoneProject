@@ -23,11 +23,11 @@ module.exports = function(app, urlEncodedParser, mailer, fromEmail, fromPassword
         res.redirect('/');
     });
 
-    app.get('/profile', function (req, res) {
+    app.get('/profile', isLoggedin, function (req, res) {
         res.render('profile', {user: req.user});
     });
 
-    app.get('/buildtool', function (req, res) {
+    app.get('/buildtool', isLoggedin, function (req, res) {
         res.render('buildtool');
     });
 
@@ -58,17 +58,15 @@ module.exports = function(app, urlEncodedParser, mailer, fromEmail, fromPassword
         res.redirect('buildtool');
     });
 
-    app.get('/chat', function (req, res) {
+    app.get('/chat', isLoggedin, function (req, res) {
         res.render('chat');
     });
 };
 
 function isLoggedin(req, res, next) {
     if(req.isAuthenticated()) {
-        console.log('user authenticated');
         return next();
     } else {
-        console.log('no authentication');
         res.redirect('/');
     }
 }

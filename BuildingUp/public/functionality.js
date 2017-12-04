@@ -1,6 +1,12 @@
 var socket = io();
 var open = false;
 
+function updatePicture() {
+    var canvas = document.getElementById('project');
+    var pic = canvas.toDataURL();
+    return pic;
+}
+
 //nav functionality
 
 function clickBurger() {
@@ -128,22 +134,6 @@ function checkEmail() {
 
 function invite() {
     document.getElementById('inviteForm').style.display = 'none';
-}
-
-//build up all necessary for modal to pop up if they enter an invalid email
-function modalInteractivity() {
-    var firstModal = document.getElementById("");
-
-    if (document.body.contains(firstModal)) {
-        var modal1 = document.getElementById('firstModal');
-        var close1 = document.getElementById('close1');
-        btn1.onclick = function() {
-            modal1.style.display = "block";
-        }
-        close1.addEventListener("click", function() {
-            modal1.style.display = "none";
-        });
-    }
 }
 
 //tool functionality
