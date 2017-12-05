@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const projectSchema = mongoose.Schema({
-    projectId: String,
     users: [],
     group: Boolean,
+    updated: Date,
     title: {
         text: String,
         background: String,

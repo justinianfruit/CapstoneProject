@@ -372,16 +372,16 @@ ul {
   padding-left: 20px;
 }
 
+.land {
+  margin-bottom: 75px;
+}
+
 footer {
   right: 0;
   bottom: 0;
   left: 0;
   padding: 1rem;
   text-align: center;
-}
-
-.landFoot {
-  position: absolute;
 }
 
 footer hr {

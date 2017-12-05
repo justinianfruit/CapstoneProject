@@ -10,59 +10,6 @@ function updatePicture() {
     return pic;
 }
 
-//nav functionality
-
-function clickBurger() {
-    var nav = document.getElementById('navbar');
-    if (document.body.contains(nav)) {
-        //expanding nav when scaled down
-        var hamburger = document.getElementById("hamburger");
-        var open = false;
-        hamburger.onclick = function () {
-            if (open) {
-                open = false;
-            } else {
-                open = true;
-            }
-            displayNav(open, menu);
-        };
-    }
-}
-
-function displayNav() {
-    if (open) {
-        open = false;
-    } else {
-        open = true;
-    }
-    var nav = document.getElementById("dropNav");
-    var menu = [
-        ["Profile", "/profile"],
-        ["Wireframing", "/buildtool"],
-        ["Chat", "/chat"],
-        ["Logout", "#"]
-    ];
-    if (document.body.contains(nav)) {
-        console.log('nav exists');
-        if (open) {
-            console.log('opening dropdown');
-            var dropMenu = '<ul class="item dropMenu">';
-            for (i = 0; i < menu.length; i++) {
-                if (i == 0) {
-                    dropMenu += '<li class="first"><a href="' + menu[i][1] + '">' + menu[i][0] + '</a></li>';
-                } else {
-                    dropMenu += '<li><a href="' + menu[i][1] + '">' + menu[i][0] + '</a></li>';
-                }
-            }
-            dropMenu += '</ul>';
-            nav.innerHTML = dropMenu;
-            nav.style.display = "block";
-        } else {
-            nav.style.display = "none";
-        }
-    }
-}
-
 //chat functionality
 
 function showChat() {
@@ -142,6 +89,7 @@ function changeTitle() {
 }
 
 socket.on('newTitle', function (data) {
+    document.getElementById("titleBox").value = data.title;
     document.getElementById("cardTitle").innerHTML = data.title;
 });
 
