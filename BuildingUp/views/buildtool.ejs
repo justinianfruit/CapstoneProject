@@ -51,20 +51,25 @@
                     </div>
                 </div>
                 <div class="col col-1 rightTools">
-                    <button type="button" disabled>History</button>
+                    <button id="histBtn" type="button" onClick="showHistory()">History</button>
+                    <div id="historyWindow">
+                        <div id="historyCont">
+                            <ul id="histlog"></ul>
+                        </div>
+                    </div>
                     <button id="chatBtn" type="button" onClick="showChat()">Chat</button>
+                    <div id="chatWindow">
+                        <div id="message-container">
+                            <ul id="chatlog"></ul>
+                        </div>
+                        <div id="messageEntry">
+                            <input type="text" id="message" onkeydown="enterMsg()" maxlength="300" autofocus><button id="sendMsg" type="button" name="button" onclick="sendMessage()">Send</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div id="chatWindow">
-                <div id="message-container">
-                    <ul id="chatlog"></ul>
-                </div>
-                <div id="messageEntry">
-                    <input type="text" id="message" onkeydown="enterMsg()" maxlength="300" autofocus><button id="sendMsg" type="button" name="button" onclick="sendMessage()">Send</button>
-                </div>
-            </div>
             <div class="container-full">
                 <div class="col col-10" id="interact"></div>
             </div>
@@ -79,12 +84,14 @@
         </div>
     </div>
     <footer><% include partials/footer %></footer>
+    <script src="navScript.js"></script>
     <script src="jscolor.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
         var username = "<%- user %>";
+        var project = "<%- project %>";
+        console.log(project);
     </script>
     <script src="functionality.js"></script>
-    <script src="navScript.js"></script>
 </body>
 </html>

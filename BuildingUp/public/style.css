@@ -482,6 +482,14 @@ footer hr {
   font-size: 16px;
 }
 
+.rightTools {
+  padding-right: 0;
+  margin-right: -15px;
+  align-content: right;
+  align-items: right;
+  align-self: right;
+}
+
 #interact {
   flex-direction: row;
   min-height: 150px;
@@ -510,6 +518,41 @@ footer hr {
   min-height: 40px;
   padding: 10px;
   text-transform: uppercase;
+}
+
+#historyWindow {
+  display: none;
+  z-index: 3;
+  width: 400px;
+  position: absolute;
+  right: 0;
+  background-color: #DDE0DC;
+  border: 2px solid #5E615D;
+  margin-right: 95px;
+}
+
+#historyCont {
+  background-color: white;
+  height: 600px;
+  text-align: left;
+  flex-wrap: wrap;
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow-y: auto;
+}
+
+#histlog {
+  margin: 0;
+  padding: 0;
+}
+
+#histlog li {
+  margin: 0;
+  padding: 5px;
+}
+
+#histlog li:nth-child(even) {
+  background-color: #E0EFF1;
 }
 
 #chatWindow {

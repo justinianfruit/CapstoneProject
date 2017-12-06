@@ -1,8 +1,8 @@
 var socket = io();
 var open = false;
 var user = username;
-console.log(user);
 document.getElementById('chatWindow').style.display = 'none';
+document.getElementById('historyWindow').style.display = 'none';
 
 function updatePicture() {
     var canvas = document.getElementById('project');
@@ -37,7 +37,8 @@ function sendMessage() {
     if (msg) {
         socket.emit('msg', {
             message: msg,
-            name: user
+            name: user,
+            projectId: project
         });
     }
 }
@@ -47,6 +48,19 @@ socket.on('newmsg', function (data) {
     var elem = document.getElementById('message-container');
     elem.scrollTop = elem.scrollHeight;
 });
+
+function showHistory() {
+    var hist = document.getElementById('historyWindow');
+    var btn = document.getElementById('histBtn');
+    if (hist.style.display == "none") {
+        hist.style.display = "block";
+        hist.style.top = btn.style.top + btn.style.outerHeight + 10;
+        var elem = document.getElementById('histCont');
+        elem.scrollTop = elem.scrollHeight;
+    } else {
+        hist.style.display = "none";
+    }
+}
 
 //invite functionality
 
@@ -84,35 +98,50 @@ function changeTitle() {
     console.log('changeTitle()');
     var newTitle = document.getElementById("titleBox").value;
     socket.emit('titleChange', {
-        title: newTitle
+        title: newTitle,
+        name: user,
+        projectId: project
     });
 }
 
 socket.on('newTitle', function (data) {
     document.getElementById("titleBox").value = data.title;
     document.getElementById("cardTitle").innerHTML = data.title;
+    document.getElementById('histlog').innerHTML += '<li><b>' + data.name + '</b>: changed title to ' + data.title + '</li>';
+    var elem = document.getElementById('historyCont');
+    elem.scrollTop = elem.scrollHeight;
 });
 
 function updateBack(jscolor) {
     console.log('updateBack(jscolor)');
     socket.emit('backChange', {
-        color: jscolor
+        color: jscolor,
+        name: user,
+        projectId: project
     });
 }
 
 socket.on('newBack', function (data) {
     document.getElementById('card').style.backgroundColor = '#' + data.color;
+    document.getElementById('histlog').innerHTML += '<li><b>' + data.name + '</b>: changed background color to #' + data.color + '</li>';
+    var elem = document.getElementById('historyCont');
+    elem.scrollTop = elem.scrollHeight;
 });
 
 function updateText(jscolor) {
     console.log('updateText(jscolor)');
     socket.emit('textChange', {
-        color: jscolor
+        color: jscolor,
+        name: user,
+        projectId: project
     });
 }
 
 socket.on('newFore', function (data) {
     document.getElementById('card').style.color = '#' + data.color;
+    document.getElementById('histlog').innerHTML += '<li><b>' + data.name + '</b>: changed foreground color to #' + data.color + '</li>';
+    var elem = document.getElementById('historyCont');
+    elem.scrollTop = elem.scrollHeight;
 });
 
 function setFont() {
@@ -127,10 +156,15 @@ function setFont() {
     }
     socket.emit('fontChange', {
         font: listValue,
-        family: general
+        family: general,
+        name: user,
+        projectId: project
     });
 }
 
 socket.on('newFont', function (data) {
     document.getElementById('cardTitle').style.fontFamily = data.font;
+    document.getElementById('histlog').innerHTML += '<li><b>' + data.name + '</b>: changed font to ' + data.font + '</li>';
+    var elem = document.getElementById('historyCont');
+    elem.scrollTop = elem.scrollHeight;
 });

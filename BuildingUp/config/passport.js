@@ -19,7 +19,6 @@ module.exports = function (passport) {
         callbackURL: '/auth/google/callback',
     },
     function (token, refreshToken, profile, done) {
-        console.log(profile.photos[0].value);
         process.nextTick(function () {
             User.findOne({ 'googleId' : profile.id }, function(err, user) {
                 if (err)

@@ -1,33 +1,62 @@
-module.exports = function(io) {
-    var users = [];
+module.exports = function(io, User, Project) {
     io.on('connection', function (socket) {
-        console.log('A user connected');
-        socket.on('setUsername', function(data) {
-            if(users.indexOf(data) == -1) {
-                users.push(data);
-                socket.emit('userSet', {username: data});
-            } else {
-                socket.emit('userExists', data + ' username is taken!');
-            }
-        });
         socket.on('msg', function(data) {
             //send msg to everyone
+            Project.findById(data.projectId, function(err, proj) {
+                if (err) return console.error(err);
+                proj.chatlog.push({name: data.name, msg: data.message});
+                proj.save(function(err, proj) {
+                    if (err) return console.error(err);
+                });
+            });
             io.sockets.emit('newmsg', data);
         });
         socket.on('titleChange', function(data) {
-            console.log('Title was changed.');
+            Project.findById(data.projectId, function(err, proj) {
+                if (err) return console.error(err);
+                proj.updated = Date();
+                proj.title.text = data.title;
+                proj.changeLog.push("<b>" + proj.updated + "</b>: " + data.name + " changed the title to " + data.title);
+                proj.save(function(err, proj) {
+                    if (err) return console.error(err);
+                });
+            });
             io.sockets.emit('newTitle', data);
         });
         socket.on('backChange', function(data) {
-            console.log('Background color was changed.');
+            Project.findById(data.projectId, function(err, proj) {
+                if (err) return console.error(err);
+                proj.updated = Date();
+                proj.title.background = data.color;
+                proj.changeLog.push("<b>" + proj.updated + "</b>: " + data.name + " changed the background color to " + data.color);
+                proj.save(function(err, proj) {
+                    if (err) return console.error(err);
+                });
+            });
             io.sockets.emit('newBack', data);
         });
         socket.on('textChange', function(data) {
-            console.log('Text color was changed.');
+            Project.findById(data.projectId, function(err, proj) {
+                if (err) return console.error(err);
+                proj.updated = Date();
+                proj.title.foreground = data.color;
+                proj.changeLog.push("<b>" + proj.updated + "</b>: " + data.name + " changed the foreground color to " + data.color);
+                proj.save(function(err, proj) {
+                    if (err) return console.error(err);
+                });
+            });
             io.sockets.emit('newFore', data); 
         });
         socket.on('fontChange', function(data) {
-            console.log('Font was changed.');
+            Project.findById(data.projectId, function(err, proj) {
+                if (err) return console.error(err);
+                proj.updated = Date();
+                proj.title.font = data.font;
+                proj.changeLog.push("<b>" + proj.updated + "</b>: " + data.name + " changed the title font to " + data.font);
+                proj.save(function(err, proj) {
+                    if (err) return console.error(err);
+                });
+            });
             io.sockets.emit('newFont', data);
         });
     

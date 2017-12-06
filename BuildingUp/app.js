@@ -10,6 +10,9 @@ var cookieParser = require('cookie-parser');
 var passport = require('passport');
 var session = require('express-session');
 
+var User = require('./models/user');
+var Project = require('./models/project');
+
 var keys = require('./config/keys');
 var port = process.env.PORT || 3000;
 
@@ -26,8 +29,8 @@ app.use(passport.session());
 
 var urlencodedParser = parser.urlencoded({ extended: false });
 
-require('./config/routes')(app, urlencodedParser, mailer, keys.fromEmail, keys.fromPassword, passport);
-require('./config/socket')(io);
+require('./config/routes')(app, urlencodedParser, mailer, keys.fromEmail, keys.fromPassword, passport, User, Project);
+require('./config/socket')(io, User, Project);
 
 http.listen(port, function () {
     console.log('Listening on port ' + port);
