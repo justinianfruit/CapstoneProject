@@ -38,8 +38,6 @@ module.exports = function(app, urlEncodedParser, mailer, fromEmail, fromPassword
     app.get('/buildtool', isLoggedin, function (req, res) {
         if (req.query.id) {
             if (Project.findById(req.query.id)) {
-                console.log("req username: " + req.user.name);
-                console.log("query id: " + req.query.id);
                 res.render('buildtool', {userID: req.user.id, username: req.user.name, project: req.query.id});
             } else {
                 res.redirect('/');
@@ -87,7 +85,7 @@ module.exports = function(app, urlEncodedParser, mailer, fromEmail, fromPassword
             from: fromEmail,
             to: req.body.email,
             subject: 'Invitiation to Collaborate on Quid Proto Co!',
-            html: '<p>You have been invited by /USER/ to collaborate on their project /PROJECT TITLE/. Click the following link to begin work!</p><br><a href="https://quid-proto-co.herokuapp.com/buildtool/' + req.project.id + '">/PROJECT TITLE/</a>'
+            html: '<p>You have been invited by /USER/ to collaborate on their project /PROJECT TITLE/. Click the following link to begin work!</p><br><a href="https://quid-proto-co.herokuapp.com/buildtool/' + req.query.id + '">/PROJECT TITLE/</a>'
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
