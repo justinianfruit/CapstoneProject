@@ -1,0 +1,52 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+        <!-- http://stackoverflow.com/questions/20096949/how-to-select-fabric-js-object-programmatically -->
+        <!-- http://jsfiddle.net/ThzXM/7/ -->
+        <style>
+            canvas {
+                border: 1px solid #ccc;
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.5.0/fabric.min.js"></script>
+        <script type="text/javascript">
+            $( document ).ready(function() {
+                window.canvas = new fabric.Canvas('canvas');
+                window.counter = -1;
+
+                function addrect(top,left,width,height,fill,stroke,swidth,padding) {
+                  window.canvas.add(new fabric.Rect({  left: left,top: top,width: width,height: height,fill: fill,stroke: stroke, strokeWidth: swidth,padding: padding}));
+                    window.counter++;
+                    $("#selector").append("<option value = '"+window.counter+"'>Select Item "+window.counter+"</option>")
+                }
+
+                function addcircle(top,left,radius,fill,stroke,swidth) {
+                  window.canvas.add(new fabric.Circle({left: left,top: top,radius: radius,fill: fill,stroke: stroke,strokeWidth: swidth}));
+                  window.counter++;
+                  $("#selector").append("<option value = '"+window.counter+"'>Select Item "+window.counter+"</option>")
+                }
+
+
+
+                $('#selector').on('change', function() {
+                    canvas.setActiveObject(canvas.item(this.value)); 
+                });
+
+                addrect(100,100,75,50,'green','black',3,10);
+                addcircle(200,200,30,'gray','black',3);
+                addrect(300,300,75,50,'red','black',3,10);
+                addcircle(250,210,50,'blue','black',3);
+                canvas.renderAll();
+            });
+        </script>
+
+        </head>
+
+        <body>
+        <select id = "selector">
+            <option value = "">Select an item...</option>
+        </select>
+        <canvas id="canvas" width="400" height="400" style="border:1px solid red"/>
+        </body
+
+</html>

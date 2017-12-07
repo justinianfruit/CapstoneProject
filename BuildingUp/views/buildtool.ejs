@@ -86,11 +86,12 @@
     <footer><% include partials/footer %></footer>
     <script src="navScript.js"></script>
     <script src="jscolor.js"></script>
+    <script src="fabric.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
-        var username = "<%- user %>";
+        var userId = "<%- userID %>";
+        var username = '<%- username %>';
         var project = "<%- project %>";
-        console.log(project);
     </script>
     <script src="functionality.js"></script>
 </body>

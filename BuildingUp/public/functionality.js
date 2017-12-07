@@ -1,8 +1,22 @@
 var socket = io();
 var open = false;
-var user = username;
+var userId = userId;
+var username = username;
+var project = project;
 document.getElementById('chatWindow').style.display = 'none';
 document.getElementById('historyWindow').style.display = 'none';
+var canvas = new fabric.Canvas('project');
+// create a rectangle object
+var rect = new fabric.Rect({
+    left: 100,
+    top: 100,
+    fill: 'red',
+    width: 20,
+    height: 20
+  });
+  
+// "add" rectangle onto canvas
+canvas.add(rect);
 
 function updatePicture() {
     var canvas = document.getElementById('project');
@@ -37,7 +51,8 @@ function sendMessage() {
     if (msg) {
         socket.emit('msg', {
             message: msg,
-            name: user,
+            userID: userId,
+            name: username,
             projectId: project
         });
     }
@@ -55,7 +70,7 @@ function showHistory() {
     if (hist.style.display == "none") {
         hist.style.display = "block";
         hist.style.top = btn.style.top + btn.style.outerHeight + 10;
-        var elem = document.getElementById('histCont');
+        var elem = document.getElementById('historyCont');
         elem.scrollTop = elem.scrollHeight;
     } else {
         hist.style.display = "none";
@@ -95,11 +110,11 @@ function invite() {
 //tool functionality
 
 function changeTitle() {
-    console.log('changeTitle()');
     var newTitle = document.getElementById("titleBox").value;
     socket.emit('titleChange', {
         title: newTitle,
-        name: user,
+        userID: userId,
+        name: username,
         projectId: project
     });
 }
@@ -113,10 +128,10 @@ socket.on('newTitle', function (data) {
 });
 
 function updateBack(jscolor) {
-    console.log('updateBack(jscolor)');
     socket.emit('backChange', {
         color: jscolor,
-        name: user,
+        userID: userId,
+        name: username,
         projectId: project
     });
 }
@@ -129,10 +144,10 @@ socket.on('newBack', function (data) {
 });
 
 function updateText(jscolor) {
-    console.log('updateText(jscolor)');
     socket.emit('textChange', {
         color: jscolor,
-        name: user,
+        userID: userId,
+        name: username,
         projectId: project
     });
 }
@@ -145,8 +160,6 @@ socket.on('newFore', function (data) {
 });
 
 function setFont() {
-    console.log('setFont()');
-    //this doesn't set the font family of entire div, figure out how to do that
     var listValue = document.getElementById('fontBox').value;
     var general = "";
     if (listValue == "Alegreya Sans SC") {
@@ -157,7 +170,8 @@ function setFont() {
     socket.emit('fontChange', {
         font: listValue,
         family: general,
-        name: user,
+        userID: userId,
+        name: username,
         projectId: project
     });
 }

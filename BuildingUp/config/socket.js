@@ -20,6 +20,22 @@ module.exports = function(io, User, Project) {
                 proj.save(function(err, proj) {
                     if (err) return console.error(err);
                 });
+                // User.findById(data.userID, function (err, user) {
+                //     if (err) return console.error(err);
+                //     User.deleteOne({projects: {id: data.projectId}}, function (err2, project) {
+                //         if (err2) return console.error(err2);
+                //         console.log('found and deleted existing record, about to overwrite');
+                //     });
+                // });
+                //update user project info
+                // User.findById(data.userID, function(err, user) {
+                //     user.projects.push({
+                //         id: proj.id,
+                //         title: proj.title.text,
+                //         updated: proj.updated,
+                //         group: proj.group
+                //     });
+                // });
             });
             io.sockets.emit('newTitle', data);
         });
@@ -62,7 +78,6 @@ module.exports = function(io, User, Project) {
     
         //whenever someone disconnects
         socket.on('disconnect', function () {
-            console.log('A user disconnected');
         });
     });
 }
