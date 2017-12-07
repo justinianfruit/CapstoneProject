@@ -1,5 +1,10 @@
 module.exports = function(io, User, Project) {
     io.on('connection', function (socket) {
+        socket.on('onLoad', function(data) {
+            io.sockets.emit('loadProject', {
+                //give it: title, colors, font, collection of shapes, chat records, history
+            });
+        });
         socket.on('msg', function(data) {
             //send msg to everyone
             Project.findById(data.projectId, function(err, proj) {
@@ -14,7 +19,9 @@ module.exports = function(io, User, Project) {
         socket.on('titleChange', function(data) {
             Project.findById(data.projectId, function(err, proj) {
                 if (err) return console.error(err);
-                proj.updated = Date();
+                var date = new Date();
+                var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + ", " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                proj.updated = dateString;
                 proj.title.text = data.title;
                 proj.changeLog.push("<b>" + proj.updated + "</b>: " + data.name + " changed the title to " + data.title);
                 proj.save(function(err, proj) {
@@ -42,7 +49,9 @@ module.exports = function(io, User, Project) {
         socket.on('backChange', function(data) {
             Project.findById(data.projectId, function(err, proj) {
                 if (err) return console.error(err);
-                proj.updated = Date();
+                var date = new Date();
+                var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + ", " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                proj.updated = dateString;
                 proj.title.background = data.color;
                 proj.changeLog.push("<b>" + proj.updated + "</b>: " + data.name + " changed the background color to " + data.color);
                 proj.save(function(err, proj) {
@@ -54,7 +63,9 @@ module.exports = function(io, User, Project) {
         socket.on('textChange', function(data) {
             Project.findById(data.projectId, function(err, proj) {
                 if (err) return console.error(err);
-                proj.updated = Date();
+                var date = new Date();
+                var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + ", " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                proj.updated = dateString;
                 proj.title.foreground = data.color;
                 proj.changeLog.push("<b>" + proj.updated + "</b>: " + data.name + " changed the foreground color to " + data.color);
                 proj.save(function(err, proj) {
@@ -66,7 +77,9 @@ module.exports = function(io, User, Project) {
         socket.on('fontChange', function(data) {
             Project.findById(data.projectId, function(err, proj) {
                 if (err) return console.error(err);
-                proj.updated = Date();
+                var date = new Date();
+                var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + ", " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                proj.updated = dateString;
                 proj.title.font = data.font;
                 proj.changeLog.push("<b>" + proj.updated + "</b>: " + data.name + " changed the title font to " + data.font);
                 proj.save(function(err, proj) {

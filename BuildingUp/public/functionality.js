@@ -18,6 +18,18 @@ var rect = new fabric.Rect({
 // "add" rectangle onto canvas
 canvas.add(rect);
 
+function setUpProject() {
+    socket.emit('onLoad', {
+       project: project 
+    });
+}
+
+setUpProject();
+
+socket.on('loadProject', function(data) {
+    //use those variables to alter canvas and update inputs and logs (history & chat)
+});
+
 function updatePicture() {
     var canvas = document.getElementById('project');
     var pic = canvas.toDataURL();

@@ -347,6 +347,12 @@ tr:nth-child(even) {
   background-color: #C4C7C3;
 }
 
+.profileLink {
+  text-decoration: none;
+  cursor: pointer;
+  color: black;
+}
+
 h1 code, h4 code {
   padding-right: 5px;
 }
@@ -491,12 +497,36 @@ footer hr {
 }
 
 #interact {
+  display: flex;
   flex-direction: row;
-  min-height: 150px;
-  max-height: 200px;
-  border: 1px solid black;
+  height: 120px;
+  background-color: white;
   margin-left: 10px;
   margin-right: 22px;
+}
+
+.imageTool {
+  flex: 1;
+  display: inline-block;
+  text-align: center;
+}
+
+.imageTool img {
+  width: 100px;
+  height: 100px;
+  margin: 10px 0;
+}
+
+#dot {
+  height: 5px;
+}
+
+#line {
+  width: 5px;
+}
+
+#delete, #dot {
+  margin-top: 30px;
 }
 
 #card {

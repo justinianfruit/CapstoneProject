@@ -48,7 +48,9 @@ module.exports = function(app, urlEncodedParser, mailer, fromEmail, fromPassword
             var newProject = new Project();
             newProject.users.push(req.user.email);
             newProject.group = false;
-            newProject.updated = Date();
+            var date = new Date();
+            var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + ", " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+            newProject.updated = dateString;
             newProject.title = {
                 text: 'Untitled',
                 background: '#FFFFFF',

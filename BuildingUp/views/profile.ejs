@@ -24,28 +24,23 @@
                     <h3 class="profileHeading">Projects</h3>
                 </div>
                 <div>
-                    <table class="striped">
-                        <tr>
-                            <th>Title</th>
-                            <th>Last Update</th>
-                            <th>Group</th>
-                        </tr>
-                        <tr>
-                            <td>Mobile App Outline</td>
-                            <td>10/4/17, 4:13 PM</td>
-                            <td>True</td>
-                        </tr>
-                        <tr>
-                            <td>Website Frame</td>
-                            <td>10/8/17, 7:42 PM</td>
-                            <td>False</td>
-                        </tr>
-                        <tr>
-                            <td>Profile Website Frame</td>
-                            <td>9/29/17, 3:57 AM</td>
-                            <td>False</td>
-                        </tr>
-                    </table>
+                    <% if (collection.length > 0) { %>
+                        <% console.log(collection) %>
+                        <table class="striped">
+                            <tr>
+                                <th>Project ID</th>
+                                <th>Creation Date</th>
+                            </tr>
+                            <% collection.forEach(function (project) { %>
+                                <tr>
+                                    <td><a class="profileLink" href="/buildtool?id=<%= project.id %>"><%= project.id %></a></td>
+                                    <td><%= project.created %></td>
+                                </tr>
+                            <% }) %>
+                        </table>
+                    <% } else { %>
+                        <h2 class="center">You haven't made any projects!</h2>
+                    <% } %>
                 </div>
             </div>
         </div>

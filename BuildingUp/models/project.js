@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const projectSchema = mongoose.Schema({
     users: [],
     group: Boolean,
-    updated: Date,
+    updated: String,
     title: {
         text: String,
         background: String,
@@ -12,7 +12,7 @@ const projectSchema = mongoose.Schema({
     },
     changeLog: [],
     chatLog: [],
-    objects: []
+    images: []
 });
 
 module.exports = mongoose.model('Project', projectSchema);

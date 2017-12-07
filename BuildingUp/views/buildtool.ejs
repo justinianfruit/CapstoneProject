@@ -16,7 +16,7 @@
                 <div class="col col-1 leftTools">
                     <button type="button" onClick="showForm()" id="collab">Invite</button>
                     <div id="inviteForm">
-                        <form method="post" action="/sendInvite">
+                        <form method="post" action="/sendInvite?id=<%= project %>">
                             <p>Invite team member:</p>
                             <input type="text" name="email" id="emailEntry" onInput="checkEmail()">
                             <input id="sendEmail" type="submit" onClick="invite()" value="Send Invite" disabled>
@@ -71,7 +71,17 @@
         </div>
         <div class="row">
             <div class="container-full">
-                <div class="col col-10" id="interact"></div>
+                <div class="col col-10" id="interact">
+                    <div class="imageTool"><img id="dot" src="images/dotLine.png"></div>
+                    <div class="imageTool"><img src="images/ellipse.png"></div>
+                    <div class="imageTool"><img src="images/hexagon.png"></div>
+                    <div class="imageTool"><img id="line" src="images/line.png"></div>
+                    <div class="imageTool"><img src="images/pentagon.png"></div>
+                    <div class="imageTool"><img src="images/rect.png"></div>
+                    <div class="imageTool"><img src="images/roundRect.png"></div>
+                    <div class="imageTool"><img src="images/triangle.png"></div>
+                    <div class="imageTool"><button id="delete" type="button">Delete</button></div>
+                </div>
             </div>
         </div>
         <div class="row">
