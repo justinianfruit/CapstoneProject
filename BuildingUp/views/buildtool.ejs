@@ -32,7 +32,7 @@
                         <p>Background Color: &nbsp;</p><input id="backColor" class="jscolor" value="#FFFFFF" onChange="updateBack(this.value)">
                     </div>
                     <div>
-                        <p>Text Color: &nbsp;</p><input id="textColor" class="jscolor" value="#000000" onChange="updateText(this.value)">
+                        <p>Title Color: &nbsp;</p><input id="textColor" class="jscolor" value="#000000" onChange="updateText(this.value)">
                     </div>
                     <div>
                         <p>Font: &nbsp;</p><select id="fontBox" onChange="setFont()">
@@ -72,24 +72,24 @@
         <div class="row">
             <div class="container-full">
                 <div class="col col-10" id="interact">
-                    <div class="imageTool"><img src="images/textIcon.png"></div>
-                    <div class="imageTool"><img id="dot" src="images/dotLine.png"></div>
-                    <div class="imageTool"><img src="images/ellipse.png"></div>
-                    <div class="imageTool"><img src="images/hexagon.png"></div>
-                    <div class="imageTool"><img id="line" src="images/line.png"></div>
-                    <div class="imageTool"><img src="images/pentagon.png"></div>
-                    <div class="imageTool"><img src="images/rect.png"></div>
-                    <div class="imageTool"><img src="images/roundRect.png"></div>
-                    <div class="imageTool"><img src="images/triangle.png"></div>
-                    <div class="imageTool"><button id="delete" type="button">Delete</button></div>
+                    <div class="imageTool" onClick="addText()"><img src="images/textIcon.png"></div>
+                    <div class="imageTool" onClick="addShape('dotLine')"><img id="dot" src="images/dotLine.png"></div>
+                    <div class="imageTool" onClick="addShape('ellipse')"><img src="images/ellipse.png"></div>
+                    <div class="imageTool" onClick="addShape('hexagon')"><img src="images/hexagon.png"></div>
+                    <div class="imageTool" onClick="addShape('line')"><img id="line" src="images/line.png"></div>
+                    <div class="imageTool" onClick="addShape('pentagon')"><img src="images/pentagon.png"></div>
+                    <div class="imageTool" onClick="addShape('rect')"><img src="images/rect.png"></div>
+                    <div class="imageTool" onClick="addShape('roundRect')"><img src="images/roundRect.png"></div>
+                    <div class="imageTool" onClick="addShape('triangle')"><img src="images/triangle.png"></div>
+                    <div class="imageTool" id="buttonDiv"><button id="delete" type="button" disabled>Delete</button></div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="container-full">
-                <div class="col col-10" id="card">
+                <div class="col col-10 center" id="card">
                     <h1 id="cardTitle" class="center">Untitled</h1>
-                    <canvas id="project"></canvas>
+                    <canvas id="project" height='737px' width='1588px'></canvas>
                 </div>
             </div>
         </div>

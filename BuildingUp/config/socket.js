@@ -1,8 +1,27 @@
 module.exports = function(io, User, Project) {
     io.on('connection', function (socket) {
         socket.on('onLoad', function(data) {
-            io.sockets.emit('loadProject', {
-                //give it: title, colors, font, collection of shapes, chat records, history
+            var title = '', background = '', foreground='', font='', chat=[], history=[], objects=[], text=[];
+            Project.findById(data.projectId, function(err, proj) {
+                if (err) return console.error(err);
+                title = proj.title.text;
+                background = proj.title.background;
+                foreground = proj.title.foreground;
+                font = proj.title.font;
+                chat = proj.chatLog;
+                history = proj.changeLog;
+                objects = proj.images;
+                text = proj.text;
+                io.sockets.emit('loadProject', {
+                    title: title,
+                    background: background,
+                    foreground: foreground,
+                    font: font,
+                    chat: chat,
+                    history: history,
+                    objects: objects,
+                    text: text
+                });
             });
         });
         socket.on('msg', function(data) {
@@ -27,22 +46,6 @@ module.exports = function(io, User, Project) {
                 proj.save(function(err, proj) {
                     if (err) return console.error(err);
                 });
-                // User.findById(data.userID, function (err, user) {
-                //     if (err) return console.error(err);
-                //     User.deleteOne({projects: {id: data.projectId}}, function (err2, project) {
-                //         if (err2) return console.error(err2);
-                //         console.log('found and deleted existing record, about to overwrite');
-                //     });
-                // });
-                //update user project info
-                // User.findById(data.userID, function(err, user) {
-                //     user.projects.push({
-                //         id: proj.id,
-                //         title: proj.title.text,
-                //         updated: proj.updated,
-                //         group: proj.group
-                //     });
-                // });
             });
             io.sockets.emit('newTitle', data);
         });
@@ -87,6 +90,40 @@ module.exports = function(io, User, Project) {
                 });
             });
             io.sockets.emit('newFont', data);
+        });
+        socket.on('addShape', function(data) {
+            Project.findById(data.projectId, function(err, proj) {
+                if (err) return console.error(err);
+                var date = new Date();
+                var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + ", " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                proj.updated = dateString;
+                proj.images.push({
+                    shape: data.shape,
+                    left: data.left,
+                    top: data.top
+                });
+                proj.save(function(err, proj) {
+                    if (err) return console.error(err);
+                });
+            });
+            io.sockets.emit('newShape', data);
+        });
+        socket.on('addText', function(data) {
+            Project.findById(data.projectId, function(err, proj) {
+                if (err) return console.error(err);
+                var date = new Date();
+                var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + ", " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                proj.updated = dateString;
+                proj.text.push({
+                    text: data.text,
+                    left: data.left,
+                    top: data.top
+                });
+                proj.save(function(err, proj) {
+                    if (err) return console.error(err);
+                });
+            });
+            io.sockets.emit('newText', data);
         });
     
         //whenever someone disconnects

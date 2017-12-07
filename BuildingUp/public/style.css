@@ -509,6 +509,12 @@ footer hr {
   flex: 1;
   display: inline-block;
   text-align: center;
+  cursor: pointer;
+}
+
+.imageTool:hover {
+  background-color: #DDE0DC;
+  border: 1px solid black;
 }
 
 .imageTool img {
@@ -530,6 +536,12 @@ footer hr {
   margin-top: 36px;
 }
 
+#buttonDiv {
+  cursor: auto;
+  background-color: white;
+  border: none;
+}
+
 #card {
   height: 800px;
   background-color: white;
@@ -539,8 +551,6 @@ footer hr {
 }
 
 #project {
-  height: 100%;
-  width: 100%;
   z-index: 1;
 }
 

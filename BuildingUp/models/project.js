@@ -12,7 +12,8 @@ const projectSchema = mongoose.Schema({
     },
     changeLog: [],
     chatLog: [],
-    images: []
+    images: [],
+    text: []
 });
 
 module.exports = mongoose.model('Project', projectSchema);

@@ -3,38 +3,51 @@ var open = false;
 var userId = userId;
 var username = username;
 var project = project;
+
 document.getElementById('chatWindow').style.display = 'none';
 document.getElementById('historyWindow').style.display = 'none';
+
 var canvas = new fabric.Canvas('project');
-// create a rectangle object
-var rect = new fabric.Rect({
-    left: 100,
-    top: 100,
-    fill: 'red',
-    width: 20,
-    height: 20
-  });
-  
-// "add" rectangle onto canvas
-canvas.add(rect);
 
 function setUpProject() {
     socket.emit('onLoad', {
-       project: project 
+       projectId: project 
     });
 }
 
 setUpProject();
 
 socket.on('loadProject', function(data) {
-    //use those variables to alter canvas and update inputs and logs (history & chat)
+    //document.getElementById('project').style.width = document.getElementById('card').style.width;
+    for (i = 0; i < data.history.length; i++) {
+        document.getElementById('histlog').innerHTML += '<li>' + data.history[i] + '</li>';
+    }
+    for (i = 0; i < data.chat.length; i++) {
+        document.getElementById('chatlog').innerHTML += '<li><b>' + data.chat[i].name + '</b>: ' + data.chat[i].message + '</li>';
+    }
+    document.getElementById('titleBox').value = data.title;
+    document.getElementById('cardTitle').innerHTML = data.title;
+    document.getElementById('backColor').value = data.background;
+    document.getElementById('backColor').style.backgroundColor = "#" + data.background;
+    document.getElementById('project').style.backgroundColor = "#" + data.background;
+    document.getElementById('textColor').value = data.foreground;
+    document.getElementById('textColor').style.backgroundColor = "#" + data.foreground;
+    document.getElementById('card').style.color = "#" + data.foreground;
+    document.getElementById('cardTitle').style.font = data.font;
+    document.getElementById('fontBox').value = data.font;
+    console.log('shape collection');
+    console.log(data.objects[0]);
+    for(i = 0; i < data.objects.length; i++) {
+        fabric.Image.fromURL("images/" + data.objects[i].shape + '.png', function(oImg) {
+            oImg.set('left', data.objects[i].left).set('top', data.objects[i].top);
+            canvas.add(oImg);
+        });
+    }
+    for (i = 0; i < data.text.length; i++) {
+        var text = new fabric.Text(data.text[i].text, { left: data.text[i].left, top: data.text[i].top });
+        canvas.add(text);
+    }
 });
-
-function updatePicture() {
-    var canvas = document.getElementById('project');
-    var pic = canvas.toDataURL();
-    return pic;
-}
 
 //chat functionality
 
@@ -149,7 +162,7 @@ function updateBack(jscolor) {
 }
 
 socket.on('newBack', function (data) {
-    document.getElementById('card').style.backgroundColor = '#' + data.color;
+    document.getElementById('project').style.backgroundColor = '#' + data.color;
     document.getElementById('histlog').innerHTML += '<li><b>' + data.name + '</b>: changed background color to #' + data.color + '</li>';
     var elem = document.getElementById('historyCont');
     elem.scrollTop = elem.scrollHeight;
@@ -165,7 +178,7 @@ function updateText(jscolor) {
 }
 
 socket.on('newFore', function (data) {
-    document.getElementById('card').style.color = '#' + data.color;
+    document.getElementById('project').style.color = '#' + data.color;
     document.getElementById('histlog').innerHTML += '<li><b>' + data.name + '</b>: changed foreground color to #' + data.color + '</li>';
     var elem = document.getElementById('historyCont');
     elem.scrollTop = elem.scrollHeight;
@@ -193,4 +206,40 @@ socket.on('newFont', function (data) {
     document.getElementById('histlog').innerHTML += '<li><b>' + data.name + '</b>: changed font to ' + data.font + '</li>';
     var elem = document.getElementById('historyCont');
     elem.scrollTop = elem.scrollHeight;
+});
+
+function addText() {
+    var text = new fabric.Text('Text', { left: 100, top: 100 });
+    canvas.add(text);
+    socket.emit('addText', {
+        projectId: project,
+        text: "Text",
+        left: 100,
+        top: 100
+    });
+}
+
+socket.on('newText', function(data) {
+    var text = new fabric.Text(data.text, { left: data.left, top: data.top });
+    canvas.add(text);
+});
+
+function addShape(shape) {
+    fabric.Image.fromURL("images/" + shape + '.png', function(oImg) {
+        oImg.set('left', 100).set('top', 100);
+        canvas.add(oImg);
+    });
+    socket.emit('addShape', {
+        projectId: project,
+        shape: shape,
+        left: 100,
+        top: 100
+    });
+}
+
+socket.on('newShape', function(data) {
+    fabric.Image.fromURL("images/" + data.shape + '.png', function(oImg) {
+        oImg.set('left', data.left).set('top', data.top);
+        canvas.add(oImg);
+    });
 });

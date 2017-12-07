@@ -29,8 +29,6 @@ module.exports = function(app, urlEncodedParser, mailer, fromEmail, fromPassword
 
     app.get('/profile', isLoggedin, function (req, res) {
         var userOwns = req.user.projects;
-        console.log("array of user projects:");
-        console.log(userOwns);
         res.render('profile', {user: req.user, collection: userOwns});
     });
 
