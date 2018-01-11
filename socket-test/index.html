@@ -9,6 +9,7 @@
         <button type="button" name="button" onclick="setUsername()">Let Me Chat!</button>
     </body>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="./fabric.js"></script>
     <script>
         var socket = io();
         function setUsername() {
@@ -20,7 +21,25 @@
         });
         socket.on('userSet', function(data) {
             user = data.username;
-            document.body.innerHTML = '<input type="text" id="message"><button type="button" name="button" onclick="sendMessage()">Send</button><div id="message-container"></div>';
+            document.body.innerHTML = '<input type="text" id="message"><button type="button" name="button" onclick="sendMessage()">Send</button><div id="message-container"></div><canvas id="project"/>';
+
+            var myCanvas = new fabric.Canvas('project');
+                myCanvas.add(
+                    new fabric.Rect({
+                        width: 100, height: 200,
+                        left: 100, top: 100,
+                        fill: 'yellow',
+                        angle: 30
+                }));
+
+                myCanvas.add(
+                    new fabric.IText('Text', { left: 100, top: 100 })
+                );
+
+                fabric.Image.fromURL('ellipse.png', function(oImg) {
+                    oImg.set('left', 100).set('top', 100);
+                    myCanvas.add(oImg);
+                });
         });
         function sendMessage() {
             var msg = document.getElementById('message').value;

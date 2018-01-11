@@ -68,6 +68,6 @@ io.on('connection', function (socket) {
 //     nsp.emit('hi', 'Hello everyone!');
 // });
 
-http.listen(3000, function () {
-    console.log('Listening on *:3000');
+http.listen(3005, function () {
+    console.log('Listening on *:3005');
 });

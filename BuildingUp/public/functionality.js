@@ -18,7 +18,6 @@ function setUpProject() {
 setUpProject();
 
 socket.on('loadProject', function(data) {
-    //document.getElementById('project').style.width = document.getElementById('card').style.width;
     for (i = 0; i < data.history.length; i++) {
         document.getElementById('histlog').innerHTML += '<li>' + data.history[i] + '</li>';
     }
@@ -33,18 +32,16 @@ socket.on('loadProject', function(data) {
     document.getElementById('textColor').value = data.foreground;
     document.getElementById('textColor').style.backgroundColor = "#" + data.foreground;
     document.getElementById('card').style.color = "#" + data.foreground;
-    document.getElementById('cardTitle').style.font = data.font;
+    document.getElementById('cardTitle').style.fontFamily = data.font;
     document.getElementById('fontBox').value = data.font;
-    console.log('shape collection');
-    console.log(data.objects[0]);
-    for(i = 0; i < data.objects.length; i++) {
-        fabric.Image.fromURL("images/" + data.objects[i].shape + '.png', function(oImg) {
-            oImg.set('left', data.objects[i].left).set('top', data.objects[i].top);
+    data.objects.forEach(function (shape) {
+        fabric.Image.fromURL("images/" + shape.shape + '.png', function(oImg) {
+            oImg.set('left', shape.left).set('top', shape.top);
             canvas.add(oImg);
         });
-    }
+    });
     for (i = 0; i < data.text.length; i++) {
-        var text = new fabric.Text(data.text[i].text, { left: data.text[i].left, top: data.text[i].top });
+        var text = new fabric.IText(data.text[i].text, { left: data.text[i].left, top: data.text[i].top });
         canvas.add(text);
     }
 });
@@ -178,7 +175,7 @@ function updateText(jscolor) {
 }
 
 socket.on('newFore', function (data) {
-    document.getElementById('project').style.color = '#' + data.color;
+    document.getElementById('cardTitle').style.color = '#' + data.color;
     document.getElementById('histlog').innerHTML += '<li><b>' + data.name + '</b>: changed foreground color to #' + data.color + '</li>';
     var elem = document.getElementById('historyCont');
     elem.scrollTop = elem.scrollHeight;
@@ -209,7 +206,7 @@ socket.on('newFont', function (data) {
 });
 
 function addText() {
-    var text = new fabric.Text('Text', { left: 100, top: 100 });
+    var text = new fabric.IText('Text', { left: 100, top: 100 });
     canvas.add(text);
     socket.emit('addText', {
         projectId: project,
@@ -220,7 +217,8 @@ function addText() {
 }
 
 socket.on('newText', function(data) {
-    var text = new fabric.Text(data.text, { left: data.left, top: data.top });
+    var text = new fabric.IText(data.text, { left: data.left, top: data.top });
+    document.getElementById('histlog').innerHTML += '<li><b>' + data.name + '</b>: added some text</li>';
     canvas.add(text);
 });
 
@@ -240,6 +238,7 @@ function addShape(shape) {
 socket.on('newShape', function(data) {
     fabric.Image.fromURL("images/" + data.shape + '.png', function(oImg) {
         oImg.set('left', data.left).set('top', data.top);
+        document.getElementById('histlog').innerHTML += '<li><b>' + data.name + '</b>: added a shape - ' + data.shape + '</li>';
         canvas.add(oImg);
     });
 });

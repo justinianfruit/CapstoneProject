@@ -83,7 +83,7 @@ module.exports = function(app, urlEncodedParser, mailer, fromEmail, fromPassword
             from: fromEmail,
             to: req.body.email,
             subject: 'Invitiation to Collaborate on Quid Proto Co!',
-            html: '<p>You have been invited by /USER/ to collaborate on their project /PROJECT TITLE/. Click the following link to begin work!</p><br><a href="https://quid-proto-co.herokuapp.com/buildtool/' + req.query.id + '">/PROJECT TITLE/</a>'
+            html: '<p>You have been invited to collaborate on their project. Click the following link to begin work!</p><br><a href="https://quid-proto-co.herokuapp.com/buildtool?id=' + req.query.id + '">' + req.query.id + '</a>'
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
@@ -95,7 +95,7 @@ module.exports = function(app, urlEncodedParser, mailer, fromEmail, fromPassword
                 console.log('Email sent: ' + info.response);
             }
         });
-        res.redirect('buildtool');
+        res.redirect('/buildtool?id=' + req.query.id);
     });
 
     app.get('/chat', isLoggedin, function (req, res) {

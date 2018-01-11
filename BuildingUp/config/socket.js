@@ -28,7 +28,7 @@ module.exports = function(io, User, Project) {
             //send msg to everyone
             Project.findById(data.projectId, function(err, proj) {
                 if (err) return console.error(err);
-                proj.chatlog.push({name: data.name, msg: data.message});
+                proj.chatLog.push({name: data.name, msg: data.message});
                 proj.save(function(err, proj) {
                     if (err) return console.error(err);
                 });
@@ -97,6 +97,7 @@ module.exports = function(io, User, Project) {
                 var date = new Date();
                 var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + ", " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
                 proj.updated = dateString;
+                proj.changeLog.push("<b>" + proj.updated + "</b>: " + data.name + " added a shape: " + data.shape);
                 proj.images.push({
                     shape: data.shape,
                     left: data.left,
@@ -114,6 +115,7 @@ module.exports = function(io, User, Project) {
                 var date = new Date();
                 var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + ", " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
                 proj.updated = dateString;
+                proj.changeLog.push("<b>" + proj.updated + "</b>: " + data.name + " added some text: " + data.text);
                 proj.text.push({
                     text: data.text,
                     left: data.left,
