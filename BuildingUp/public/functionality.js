@@ -3,11 +3,14 @@ var open = false;
 var userId = userId;
 var username = username;
 var project = project;
+var con = this;
 
 document.getElementById('chatWindow').style.display = 'none';
 document.getElementById('historyWindow').style.display = 'none';
 
 var canvas = new fabric.Canvas('project');
+canvas.selection= false;
+con.container= document.getElementById("card");
 
 function setUpProject() {
     socket.emit('onLoad', {
@@ -41,9 +44,13 @@ socket.on('loadProject', function(data) {
         });
     });
     for (i = 0; i < data.text.length; i++) {
-        var text = new fabric.IText(data.text[i].text, { left: data.text[i].left, top: data.text[i].top });
-        canvas.add(text);
+        canvas.add(new fabric.IText(data.text[i].text, { left: data.text[i].left, top: data.text[i].top }));
     }
+    canvas.on('object:moving', this.emitObjectModifying);
+    canvas.on('object:scaling', this.emitObjectModifying);
+    canvas.on('object:rotating', this.emitObjectModifying);
+    canvas.on('mouse:up', this.emitObjectStoppedModifying);
+    canvas.on('mouse:up', this.dragMouseUp);
 });
 
 //chat functionality
@@ -206,8 +213,6 @@ socket.on('newFont', function (data) {
 });
 
 function addText() {
-    var text = new fabric.IText('Text', { left: 100, top: 100 });
-    canvas.add(text);
     socket.emit('addText', {
         projectId: project,
         text: "Text",
@@ -223,10 +228,6 @@ socket.on('newText', function(data) {
 });
 
 function addShape(shape) {
-    fabric.Image.fromURL("images/" + shape + '.png', function(oImg) {
-        oImg.set('left', 100).set('top', 100);
-        canvas.add(oImg);
-    });
     socket.emit('addShape', {
         projectId: project,
         shape: shape,
@@ -241,4 +242,5 @@ socket.on('newShape', function(data) {
         document.getElementById('histlog').innerHTML += '<li><b>' + data.name + '</b>: added a shape - ' + data.shape + '</li>';
         canvas.add(oImg);
     });
+    canvas.renderAll();
 });
