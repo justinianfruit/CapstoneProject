@@ -9,8 +9,8 @@ document.getElementById('chatWindow').style.display = 'none';
 document.getElementById('historyWindow').style.display = 'none';
 
 var canvas = new fabric.Canvas('project');
-canvas.selection= false;
-con.container= document.getElementById("card");
+canvas.selection = false;
+con.container = document.getElementById("card");
 
 function setUpProject() {
     socket.emit('onLoad', {
@@ -39,12 +39,12 @@ socket.on('loadProject', function(data) {
     document.getElementById('fontBox').value = data.font;
     data.objects.forEach(function (shape) {
         fabric.Image.fromURL("images/" + shape.shape + '.png', function(oImg) {
-            oImg.set('left', shape.left).set('top', shape.top);
+            oImg.set('left', shape.left).set('top', shape.top).set('originX', shape.originX).set('originY', shape.originY) ;
             canvas.add(oImg);
         });
     });
     for (i = 0; i < data.text.length; i++) {
-        canvas.add(new fabric.IText(data.text[i].text, { left: data.text[i].left, top: data.text[i].top }));
+        canvas.add(new fabric.IText(data.text[i].text, { left: data.text[i].left, top: data.text[i].top, originX: data.text[i].originX, originY: data.text[i].originY }));
     }
     canvas.on('object:moving', this.emitObjectModifying);
     canvas.on('object:scaling', this.emitObjectModifying);
@@ -216,8 +216,10 @@ function addText() {
     socket.emit('addText', {
         projectId: project,
         text: "Text",
-        left: 100,
-        top: 100
+        originX: 'center',
+        originY: 'center',
+        left: canvas.width/2,
+        top: canvas.height/2
     });
 }
 
@@ -231,14 +233,16 @@ function addShape(shape) {
     socket.emit('addShape', {
         projectId: project,
         shape: shape,
-        left: 100,
-        top: 100
+        originX: 'center',
+        originY: 'center',
+        left: canvas.width/2,
+        top: canvas.height/2
     });
 }
 
 socket.on('newShape', function(data) {
     fabric.Image.fromURL("images/" + data.shape + '.png', function(oImg) {
-        oImg.set('left', data.left).set('top', data.top);
+        oImg.set('left', data.left).set('top', data.top).set('originX', data.originX).set('originY', data.originY);
         document.getElementById('histlog').innerHTML += '<li><b>' + data.name + '</b>: added a shape - ' + data.shape + '</li>';
         canvas.add(oImg);
     });

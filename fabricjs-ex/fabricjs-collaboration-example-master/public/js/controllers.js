@@ -3,7 +3,6 @@
 /**
  * Controllers
  */
-
 angular.module('fabricApp.controllers', [])
 
 /**
@@ -12,7 +11,6 @@ angular.module('fabricApp.controllers', [])
  * @TODO: Working with username is bad, replace with id
  */
 .controller('HomeCtrl', function($scope, $location, commonData, socketFactory) {
-    
     var homeCtrl = this;
     
     if (commonData.Name === '') {
@@ -26,21 +24,17 @@ angular.module('fabricApp.controllers', [])
         return $('div[data-user-id="'+username+'"]');
     };
     
-    
     /**
      * Get FabricJs Object by Id
      */
     homeCtrl.getObjectById = function(id) {
-        
         for(var i = 0; i < $scope.objList.length; i++) {
             if ($scope.objList[i].id === id)
                 return $scope.objList[i];
         }
-        
     };
 
     homeCtrl.getHighestId = function() {
-
         var highestId = 0;
         for(var i = 0; i < $scope.objList.length; i++) {
             if ($scope.objList[i].id > highestId)
@@ -55,7 +49,6 @@ angular.module('fabricApp.controllers', [])
      * @TODO: Replace static optimal width with constant
      */
     homeCtrl.resizeCanvas = function (){ 
-        
         var minWidth = 480;
         var containerWidth = $(homeCtrl.container).width() > minWidth ? $(homeCtrl.container).width() : minWidth;
         var scaleFactor = containerWidth / 847;
@@ -67,7 +60,6 @@ angular.module('fabricApp.controllers', [])
         $scope.canvas.setZoom(scaleFactor);
         $scope.canvas.calcOffset();
         $scope.canvas.renderAll();
-
     }
     
     /**
@@ -76,7 +68,6 @@ angular.module('fabricApp.controllers', [])
      * @TODO: Load FabricJs objects from Server
      */
     homeCtrl.init = function() {
-
         // create a wrapper around native canvas element (with id="fabricjs")
         $scope.canvas = new fabric.Canvas('fabricjs');
         $scope.canvas.selection = false;
@@ -100,7 +91,6 @@ angular.module('fabricApp.controllers', [])
                 originY: 'center',
                 id: 0
             }),
-
             new fabric.Circle({
                 left: 220,
                 top: 120,
@@ -110,7 +100,6 @@ angular.module('fabricApp.controllers', [])
                 originY: 'center',
                 id: 1
             }),
-            
             new fabric.Triangle({
                 left: 340,
                 top: 120,
@@ -173,7 +162,6 @@ angular.module('fabricApp.controllers', [])
     };
 
     homeCtrl.initDrag = function() {
-
         $(window).on('mouseup', function(event) {
             homeCtrl.dragMouseUp(event);
         }).on('mousemove', function(event) {
@@ -212,7 +200,6 @@ angular.module('fabricApp.controllers', [])
     };
 
     homeCtrl.addNewRectangle = function(event) {
-
         var left, top, id;
 
         left = ((event.clientX - $(homeCtrl.container).offset().left) - 25) / $scope.canvas.getZoom();
@@ -244,7 +231,6 @@ angular.module('fabricApp.controllers', [])
     };
 
     homeCtrl.onAddRectangle = function(data) {
-
         var rectangle = new fabric.Rect({
             left: data.left,
             top: data.top,
@@ -267,7 +253,6 @@ angular.module('fabricApp.controllers', [])
      * @TODO: Working with username is bad, replace with id
      */
     homeCtrl.emitObjectStoppedModifying = function(event) {
-
         if (homeCtrl.isModifying) {
             socketFactory.emit('object:stoppedModifying', {
                 username: commonData.Name
@@ -290,12 +275,10 @@ angular.module('fabricApp.controllers', [])
      * @TODO: Move boundary check to seperate function
      */
     homeCtrl.emitObjectModifying = function(event) {
-        
         homeCtrl.isModifying = true;
         
         var activeObject = event.target,
             reachedLimit = false,
-            
             objectLeft = activeObject.left,
             objectTop = activeObject.top,
             objectWidth = (activeObject.width * activeObject.scaleX) / 2 ,
@@ -311,7 +294,6 @@ angular.module('fabricApp.controllers', [])
             reachedLimit = true;
             activeObject.left = canvasWidth-objectWidth;
         }
-        
         if (objectTop < objectHeight) {
             reachedLimit = true;
             activeObject.top = objectHeight;
@@ -320,7 +302,6 @@ angular.module('fabricApp.controllers', [])
             reachedLimit = true;
             activeObject.top = canvasHeight-objectHeight;
         }
-        
         if (reachedLimit) {
             activeObject.setCoords();
             $scope.canvas.renderAll();
@@ -330,7 +311,6 @@ angular.module('fabricApp.controllers', [])
             clearTimeout(homeCtrl.currentMoveTimeout);
 
         homeCtrl.currentMoveTimeout = setTimeout(function() {
-            
             socketFactory.emit('object:modifying', {
                 id: activeObject.id,
                 left: activeObject.left,
@@ -341,8 +321,6 @@ angular.module('fabricApp.controllers', [])
                 username: commonData.Name
             });
         }, 25);
-
-        
     };
     
     /**
@@ -351,7 +329,6 @@ angular.module('fabricApp.controllers', [])
      * @TODO: Move editorBubble into own function
      */
     homeCtrl.onObjectModifying = function(value) {
-        
         var obj = homeCtrl.getObjectById(value.id);
         var editorBubble = homeCtrl.getEditorBubble(value.username);
 
@@ -363,7 +340,6 @@ angular.module('fabricApp.controllers', [])
             editorBubble.fadeIn(400);
         
         if (typeof obj !== 'undefined') {
-            
             obj.animate({
                 left: value.left,
                 top: value.top,
@@ -388,16 +364,13 @@ angular.module('fabricApp.controllers', [])
                     
                 }
             });
-
         }
-
     };
     
     /**
      * Gets called after mouse is released on other client
      */
     homeCtrl.onObjectStoppedModifying = function(value) {
-        
         homeCtrl.isModifying = false;
         
         if (typeof homeCtrl.currentMoveTimeout !== 'undefined') {
@@ -410,25 +383,19 @@ angular.module('fabricApp.controllers', [])
                 $(this).remove();
             });
         }
-
     };
-
     homeCtrl.init();
-
 })
 
 /**
  * Basic Profile Controller
  */
 .controller('ProfileCtrl', function($scope, $location, commonData, socketFactory) {
-    
     if (commonData.Name != '')
         $location.path('/fabric');
     
     $scope.submitName = function() {
-        
         commonData.Name = $scope.user.name;
         $location.path('/fabric');
-        
     };
 });

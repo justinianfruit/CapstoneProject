@@ -109,6 +109,12 @@ module.exports = function(io, User, Project) {
             });
             io.sockets.emit('newShape', data);
         });
+        socket.on('moveShape', function(data) {
+            Project.findById(data.projectId, function(err, proj) {
+                if (err) return console.error(err);
+                
+            })
+        });
         socket.on('addText', function(data) {
             Project.findById(data.projectId, function(err, proj) {
                 if (err) return console.error(err);
@@ -126,6 +132,9 @@ module.exports = function(io, User, Project) {
                 });
             });
             io.sockets.emit('newText', data);
+        });
+        socket.on('moveText', function(data) {
+
         });
     
         //whenever someone disconnects
