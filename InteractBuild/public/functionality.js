@@ -7,6 +7,12 @@ var project = project;
 document.getElementById('chatWindow').style.display = 'none';
 document.getElementById('historyWindow').style.display = 'none';
 
+function currentDate() {
+    var date = new Date();
+    var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + ", " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    return dateString;
+}
+
 function setUpProject() {
     socket.emit('onLoad', {
         projectId: project
@@ -32,7 +38,36 @@ socket.on('loadProject', function (data) {
     document.getElementById('card').style.color = "#" + data.foreground;
     document.getElementById('cardTitle').style.fontFamily = data.font;
     document.getElementById('fontBox').value = data.font;
-    //add shapes and text on
+    //add shapes and text on load
+    data.objects.forEach(function (shape) {
+        var shapeDiv = document.createElement('div');
+        shapeDiv.style.height = shape.height + 'px';
+        shapeDiv.style.width = shape.width + 'px';
+        shapeDiv.style.background = "url('/images/" + shape.shape + ".png') top no-repeat";
+        shapeDiv.style.backgroundSize = "100% 100%";
+        shapeDiv.style.zIndex = 5;
+        shapeDiv.style.display = 'inline-block';
+        shapeDiv.className = "resize-drag";
+        shapeDiv.setAttribute('id', shape.id);
+        document.getElementById('project').appendChild(shapeDiv);
+    });
+    data.text.forEach(function (msg) {
+        var text = document.createElement('div');
+        var textDiv = document.createElement('input');
+        textDiv.setAttribute('type', 'text');
+        textDiv.defaultValue = msg.text;
+        textDiv.style.border = 'none';
+        textDiv.size = 4;
+        textDiv.style.fontSize = '30px';
+        textDiv.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+        textDiv.style.margin = '15px';
+        text.appendChild(textDiv);
+        text.style.zIndex = 5;
+        text.style.display = 'inline-block';
+        text.className = 'draggable';
+        shapeDiv.setAttribute('id', msg.id);
+        document.getElementById('project').appendChild(text);
+    })
 });
 
 //chat functionality
@@ -131,7 +166,7 @@ function changeTitle() {
 socket.on('newTitle', function (data) {
     document.getElementById("titleBox").value = data.title;
     document.getElementById("cardTitle").innerHTML = data.title;
-    document.getElementById('histlog').innerHTML += '<li><b>' + data.name + '</b>: changed title to ' + data.title + '</li>';
+    document.getElementById('histlog').innerHTML += "<li><b>" + currentDate() + "</b>: " + data.name + " changed title to: " + data.title + '</li>';
     var elem = document.getElementById('historyCont');
     elem.scrollTop = elem.scrollHeight;
 });
@@ -147,7 +182,7 @@ function updateBack(jscolor) {
 
 socket.on('newBack', function (data) {
     document.getElementById('project').style.backgroundColor = '#' + data.color;
-    document.getElementById('histlog').innerHTML += '<li><b>' + data.name + '</b>: changed background color to #' + data.color + '</li>';
+    document.getElementById('histlog').innerHTML += '<li><b>' + currentDate() + '</b>: ' + data.name + 'changed background color to #' + data.color + '</li>';
     var elem = document.getElementById('historyCont');
     elem.scrollTop = elem.scrollHeight;
 });
@@ -163,7 +198,7 @@ function updateText(jscolor) {
 
 socket.on('newFore', function (data) {
     document.getElementById('cardTitle').style.color = '#' + data.color;
-    document.getElementById('histlog').innerHTML += '<li><b>' + data.name + '</b>: changed foreground color to #' + data.color + '</li>';
+    document.getElementById('histlog').innerHTML += '<li><b>' + currentDate() + '</b>:' + data.name + ' changed foreground color to #' + data.color + '</li>';
     var elem = document.getElementById('historyCont');
     elem.scrollTop = elem.scrollHeight;
 });
@@ -187,34 +222,50 @@ function setFont() {
 
 socket.on('newFont', function (data) {
     document.getElementById('cardTitle').style.fontFamily = data.font;
-    document.getElementById('histlog').innerHTML += '<li><b>' + data.name + '</b>: changed font to ' + data.font + '</li>';
+    document.getElementById('histlog').innerHTML += '<li><b>' + currentDate() + '</b>:' + data.name + ' changed font to ' + data.font + '</li>';
     var elem = document.getElementById('historyCont');
     elem.scrollTop = elem.scrollHeight;
 });
 
 function addText() {
+    var date = new Date();
+    var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + ", " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
     socket.emit('addText', {
+        userID: userId,
         projectId: project,
+        textID: project + '-text-' + dateString,
         text: "Text",
-        originX: 'center',
-        originY: 'center',
-        left: canvas.width / 2,
-        top: canvas.height / 2
+        left: 100,
+        top: 100
     });
 }
 
 socket.on('newText', function (data) {
-    var text = new fabric.IText(data.text, {
-        left: data.left,
-        top: data.top
-    });
-    document.getElementById('histlog').innerHTML += '<li><b>' + data.name + '</b>: added some text</li>';
-    canvas.add(text);
+    var text = document.createElement('div');
+    var textDiv = document.createElement('input');
+    textDiv.setAttribute('type', 'text');
+    textDiv.defaultValue = data.text;
+    textDiv.style.border = 'none';
+    textDiv.size = 4;
+    textDiv.style.fontSize = '30px';
+    textDiv.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+    textDiv.style.margin = '15px';
+    text.appendChild(textDiv);
+    text.style.zIndex = 5;
+    text.style.display = 'inline-block';
+    text.className = 'draggable';
+    text.setAttribute('id', data.textID);
+    document.getElementById('project').appendChild(text);
+    document.getElementById('histlog').innerHTML += '<li><b>' + currentDate() + '</b>:' + data.name + ' added some text</li>';
 });
 
 function addShape(shape) {
+    var date = new Date();
+    var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + ", " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
     socket.emit('addShape', {
+        userID: userId,
         projectId: project,
+        shapeID: project + '-' + shape + '-' + dateString,
         shape: shape,
         height: 300,
         width: 300,
@@ -228,34 +279,51 @@ socket.on('newShape', function (data) {
     shapeDiv.style.height = data.height + 'px';
     shapeDiv.style.width = data.width + 'px';
     shapeDiv.style.background = "url('/images/" + data.shape + ".png') top no-repeat";
-    shapeDiv.style.backgroundSize = "100%";
-    shapeDiv.style.top = data.top;
-    shapeDiv.style.left = data.left;
+    shapeDiv.style.backgroundSize = "100% 100%";
     shapeDiv.style.zIndex = 5;
     shapeDiv.style.display = 'inline-block';
     shapeDiv.className = "resize-drag";
+    shapeDiv.setAttribute('id', data.shapeID);
     document.getElementById('project').appendChild(shapeDiv);
+    document.getElementById('histlog').innerHTML += '<li><b>' + currentDate() + '</b>:' + data.name + ' added a shape: ' + data.shape + '</li>';
 });
 
 function dragMoveListener(event) {
     var target = event.target,
-        // keep the dragged position in the data-x/data-y attributes
         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
     // translate the element
     target.style.webkitTransform =
         target.style.transform =
         'translate(' + x + 'px, ' + y + 'px)';
-
-    // update the posiion attributes
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
 }
 
+interact('.draggable')
+    .draggable({
+        inertia: false,
+        restrict: {
+            restriction: "parent",
+            endOnly: true,
+            elementRect: {
+                top: 0,
+                left: 0,
+                bottom: 1,
+                right: 1
+            }
+        },
+        autoScroll: false,
+        // call this function on every dragmove event
+        onmove: dragMoveListener,
+        // call this function on every dragend event
+        onend: function (event) {
+            console.log(event.target.id);
+            //'moved a distance of ' + (Math.sqrt(Math.pow(event.pageX - event.x0, 2) + Math.pow(event.pageY - event.y0, 2) | 0)).toFixed(2) + 'px');
+        }
+    });
 interact('.resize-drag')
     .draggable({
-        onmove: window.dragMoveListener,
         restrict: {
             restriction: 'parent',
             elementRect: {
@@ -265,6 +333,11 @@ interact('.resize-drag')
                 right: 1
             }
         },
+        onmove: dragMoveListener,
+        onend: function (event) {
+            console.log(event.target.id);
+            //'moved a distance of ' + (Math.sqrt(Math.pow(event.pageX - event.x0, 2) + Math.pow(event.pageY - event.y0, 2) | 0)).toFixed(2) + 'px');
+        }
     })
     .resizable({
         // resize from all edges and corners
@@ -274,18 +347,16 @@ interact('.resize-drag')
             bottom: true,
             top: true
         },
-
         // keep the edges inside the parent
         restrictEdges: {
             outer: 'parent',
             endOnly: true,
         },
-
         // minimum size
         restrictSize: {
             min: {
-                width: 100,
-                height: 50
+                width: 10,
+                height: 10
             },
         },
         inertia: false
@@ -294,20 +365,18 @@ interact('.resize-drag')
         var target = event.target,
             x = (parseFloat(target.getAttribute('data-x')) || 0),
             y = (parseFloat(target.getAttribute('data-y')) || 0);
-
         // update the element's style
         target.style.width = event.rect.width + 'px';
         target.style.height = event.rect.height + 'px';
-
         // translate when resizing from top or left edges
         x += event.deltaRect.left;
         y += event.deltaRect.top;
-
         target.style.webkitTransform = target.style.transform =
             'translate(' + x + 'px,' + y + 'px)';
-
         target.setAttribute('data-x', x);
         target.setAttribute('data-y', y);
+        //call socket here, gonna be a ton of calls
+        console.log(target.id);
     });
 
-window.dragMoveListener = dragMoveListener;
+//execute socket emits here for updating shape and text size/contents/location

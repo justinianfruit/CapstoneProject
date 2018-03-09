@@ -27,12 +27,14 @@
                     <% if (collection.length > 0) { %>
                         <table class="striped">
                             <tr>
-                                <th>Project ID</th>
+                                <th>Project Title</th>
+                                <th>Last Updated</th>
                                 <th>Creation Date</th>
                             </tr>
                             <% collection.forEach(function (project) { %>
                                 <tr>
-                                    <td><a class="profileLink" href="/buildtool?id=<%= project.id %>"><%= project.id %></a></td>
+                                    <td><a class="profileLink" href="/buildtool?id=<%= project.id %>"><%= project.title %></a></td>
+                                    <td><%= project.updated %></td>
                                     <td><%= project.created %></td>
                                 </tr>
                             <% }) %>
@@ -87,7 +89,6 @@
     <footer><% include partials/footer %></footer>
     <script type="text/javascript">
         var projects = '<%- collection %>';
-        console.log(projects);
     </script>
     <script src="navScript.js"></script>
 </body>

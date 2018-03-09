@@ -60,7 +60,9 @@ module.exports = function(app, urlEncodedParser, mailer, fromEmail, fromPassword
                 if (err) return console.error(err);
                 user.projects.push({
                     id: newProject.id,
+                    title: newProject.title.text,
                     created: newProject.updated,
+                    updated: newProject.updated
                 });
                 user.save(function(err) {
                     if (err) throw err;
