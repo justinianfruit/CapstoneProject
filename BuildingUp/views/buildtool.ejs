@@ -26,7 +26,7 @@
                 </div>
                 <div class="col col-8 editTools">
                     <div>
-                        <p>Title: &nbsp;</p><input id="titleBox" value='Untitled' onInput="changeTitle()"/>
+                        <p>Title: &nbsp;</p><input id="titleBox" value='Untitled' onInput="changeTitle()" onBlur="updateTitle()"/>
                     </div>
                     <div>
                         <p>Background Color: &nbsp;</p><input id="backColor" class="jscolor" value="#FFFFFF" onChange="updateBack(this.value)">
@@ -89,7 +89,7 @@
             <div class="container-full">
                 <div class="col col-10 center" id="card">
                     <h1 id="cardTitle" class="center">Untitled</h1>
-                    <canvas id="project" height='737px' width='1588px'></canvas>
+                    <div id="project" height='735px' width='1600px'></div>
                 </div>
             </div>
         </div>
@@ -97,8 +97,7 @@
     <footer><% include partials/footer %></footer>
     <script src="navScript.js"></script>
     <script src="jscolor.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.5.0/fabric.min.js"></script>
+    <script src="interact.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
         var userId = "<%- userID %>";

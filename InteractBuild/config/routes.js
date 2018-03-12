@@ -36,6 +36,24 @@ module.exports = function(app, urlEncodedParser, mailer, fromEmail, fromPassword
     app.get('/buildtool', isLoggedin, function (req, res) {
         if (req.query.id) {
             if (Project.findById(req.query.id)) {
+                // Project.findById(req.query.id, function(err, project) {
+                //     if (err) return console.error(err);
+                //     var proceed = false;
+                //     console.log(req.user.email);
+                //     console.log(project.users.length);
+                //     for(var i = 0; i > project.users.length; i++) {
+                //         console.log('checking emails listed');
+                //         console.log(project.users[i]);
+                //         if (project.users[i] == req.user.email) {
+                //             proceed = true;
+                //         }
+                //     }
+                //     if(proceed) {
+                //         res.render('buildtool', {userID: req.user.id, username: req.user.name, project: req.query.id});
+                //     } else {
+                //         res.redirect('/');
+                //     }
+                // });
                 res.render('buildtool', {userID: req.user.id, username: req.user.name, project: req.query.id});
             } else {
                 res.redirect('/');
@@ -94,6 +112,7 @@ module.exports = function(app, urlEncodedParser, mailer, fromEmail, fromPassword
                 res.render('');
             } else {
                 req.project.group = true;
+                req.project.users.push(req.body.email);
                 console.log('Email sent: ' + info.response);
             }
         });

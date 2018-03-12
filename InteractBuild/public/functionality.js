@@ -13,6 +13,14 @@ function currentDate() {
     return dateString;
 }
 
+function getPosition(el) {
+    el = el.getBoundingClientRect();
+    return {
+        left: Math.round(el.left),
+        top: Math.round(el.top)
+    }
+}
+
 function setUpProject() {
     socket.emit('onLoad', {
         projectId: project
@@ -41,18 +49,27 @@ socket.on('loadProject', function (data) {
     //add shapes and text on load
     data.objects.forEach(function (shape) {
         var shapeDiv = document.createElement('div');
-        shapeDiv.style.height = shape.height + 'px';
-        shapeDiv.style.width = shape.width + 'px';
+        shapeDiv.style.position = 'absolute';
+        shapeDiv.style.height = shape.height;
+        shapeDiv.style.width = shape.width;
+        shapeDiv.style.left = shape.left + 'px';
+        shapeDiv.style.top = shape.top + 'px';
+        shapeDiv.style.margin = 0;
+        shapeDiv.style.marginTop = 435+'px';
         shapeDiv.style.background = "url('/images/" + shape.shape + ".png') top no-repeat";
         shapeDiv.style.backgroundSize = "100% 100%";
         shapeDiv.style.zIndex = 5;
-        shapeDiv.style.display = 'inline-block';
         shapeDiv.className = "resize-drag";
         shapeDiv.setAttribute('id', shape.id);
         document.getElementById('project').appendChild(shapeDiv);
     });
     data.text.forEach(function (msg) {
         var text = document.createElement('div');
+        text.style.left = msg.left +'px';
+        text.style.top = msg.top + 'px';
+        text.style.margin = 0;
+        text.style.marginTop = 435+'px';
+        text.style.position = 'absolute';
         var textDiv = document.createElement('input');
         textDiv.setAttribute('type', 'text');
         textDiv.defaultValue = msg.text;
@@ -61,11 +78,11 @@ socket.on('loadProject', function (data) {
         textDiv.style.fontSize = '30px';
         textDiv.style.backgroundColor = 'rgba(0, 0, 0, 0)';
         textDiv.style.margin = '15px';
+        textDiv.onblur = function() {alterText(this)};
         text.appendChild(textDiv);
         text.style.zIndex = 5;
-        text.style.display = 'inline-block';
         text.className = 'draggable';
-        shapeDiv.setAttribute('id', msg.id);
+        text.setAttribute('id', msg.id);
         document.getElementById('project').appendChild(text);
     })
 });
@@ -163,12 +180,25 @@ function changeTitle() {
     });
 }
 
-socket.on('newTitle', function (data) {
-    document.getElementById("titleBox").value = data.title;
-    document.getElementById("cardTitle").innerHTML = data.title;
+function updateTitle() {
+    var newTitle = document.getElementById('titleBox').value;
+    socket.emit('titleUpdate', {
+        title: newTitle,
+        userID: userId,
+        name: username,
+        projectId: project
+    });
+}
+
+socket.on('pushUpdate', function (data) {
     document.getElementById('histlog').innerHTML += "<li><b>" + currentDate() + "</b>: " + data.name + " changed title to: " + data.title + '</li>';
     var elem = document.getElementById('historyCont');
     elem.scrollTop = elem.scrollHeight;
+});
+
+socket.on('newTitle', function (data) {
+    document.getElementById("titleBox").value = data.title;
+    document.getElementById("cardTitle").innerHTML = data.title;
 });
 
 function updateBack(jscolor) {
@@ -235,13 +265,14 @@ function addText() {
         projectId: project,
         textID: project + '-text-' + dateString,
         text: "Text",
-        left: 100,
-        top: 100
+        left: 0,
+        top: 0
     });
 }
 
 socket.on('newText', function (data) {
     var text = document.createElement('div');
+    text.style.position = 'absolute';
     var textDiv = document.createElement('input');
     textDiv.setAttribute('type', 'text');
     textDiv.defaultValue = data.text;
@@ -250,13 +281,32 @@ socket.on('newText', function (data) {
     textDiv.style.fontSize = '30px';
     textDiv.style.backgroundColor = 'rgba(0, 0, 0, 0)';
     textDiv.style.margin = '15px';
+    textDiv.onblur = function() {alterText(this)};
     text.appendChild(textDiv);
     text.style.zIndex = 5;
-    text.style.display = 'inline-block';
     text.className = 'draggable';
     text.setAttribute('id', data.textID);
     document.getElementById('project').appendChild(text);
     document.getElementById('histlog').innerHTML += '<li><b>' + currentDate() + '</b>:' + data.name + ' added some text</li>';
+});
+
+function alterText(textbox) {
+    var value = textbox.value;
+    var container = textbox.parentElement.id;
+    console.log(value + ' ' + container);
+    socket.emit('alterText', {
+        userID: userId,
+        projectId: project,
+        textID: container,
+        text: value
+    })
+}
+
+socket.on('pushTextUpdate', function(data) {
+    var target = document.getElementById(data.textID);
+    var textbox = target.children[0];
+    textbox.value = data.text;
+    document.getElementById('histlog').innerHTML += '<li><b>' + currentDate() + '</b>:' + data.name + ' altered a text item</li>';
 });
 
 function addShape(shape) {
@@ -267,21 +317,23 @@ function addShape(shape) {
         projectId: project,
         shapeID: project + '-' + shape + '-' + dateString,
         shape: shape,
-        height: 300,
-        width: 300,
-        left: 100,
-        top: 100
+        height: '300px',
+        width: '300px',
+        left: 0,
+        top: 0
     });
 }
 
 socket.on('newShape', function (data) {
     var shapeDiv = document.createElement('div');
-    shapeDiv.style.height = data.height + 'px';
-    shapeDiv.style.width = data.width + 'px';
+    shapeDiv.style.position = 'absolute';
+    shapeDiv.style.height = data.height;
+    shapeDiv.style.width = data.width;
+    shapeDiv.style.left = data.left;
+    shapeDiv.style.top = data.top;
     shapeDiv.style.background = "url('/images/" + data.shape + ".png') top no-repeat";
     shapeDiv.style.backgroundSize = "100% 100%";
     shapeDiv.style.zIndex = 5;
-    shapeDiv.style.display = 'inline-block';
     shapeDiv.className = "resize-drag";
     shapeDiv.setAttribute('id', data.shapeID);
     document.getElementById('project').appendChild(shapeDiv);
@@ -295,17 +347,16 @@ function dragMoveListener(event) {
     // translate the element
     target.style.webkitTransform =
         target.style.transform =
-        'translate(' + x + 'px, ' + y + 'px)';
-    target.setAttribute('data-x', x);
-    target.setAttribute('data-y', y);
+        'translate(' + Math.round(x) + 'px, ' + Math.round(y) + 'px)';
+    target.setAttribute('data-x', Math.round(x));
+    target.setAttribute('data-y', Math.round(y));
 }
 
 interact('.draggable')
     .draggable({
         inertia: false,
         restrict: {
-            restriction: "parent",
-            endOnly: true,
+            restriction: 'parent',
             elementRect: {
                 top: 0,
                 left: 0,
@@ -314,12 +365,25 @@ interact('.draggable')
             }
         },
         autoScroll: false,
-        // call this function on every dragmove event
         onmove: dragMoveListener,
-        // call this function on every dragend event
         onend: function (event) {
-            console.log(event.target.id);
-            //'moved a distance of ' + (Math.sqrt(Math.pow(event.pageX - event.x0, 2) + Math.pow(event.pageY - event.y0, 2) | 0)).toFixed(2) + 'px');
+            var id = document.getElementById(event.target.id).id;
+            var x = getPosition(document.getElementById(event.target.id)).left;
+            var y = getPosition(document.getElementById(event.target.id)).top;
+            var scroll = Math.round(window.scrollY);
+            var yMod = 435 - scroll;
+            var finalY = y - yMod;
+            if (finalY < 0) {
+                finalY = 0;
+            }
+            socket.emit('dragText', {
+                userID: userId,
+                name: username,
+                project: project,
+                textID: id,
+                newX: x,
+                newY: finalY
+            });
         }
     });
 interact('.resize-drag')
@@ -335,48 +399,99 @@ interact('.resize-drag')
         },
         onmove: dragMoveListener,
         onend: function (event) {
-            console.log(event.target.id);
-            //'moved a distance of ' + (Math.sqrt(Math.pow(event.pageX - event.x0, 2) + Math.pow(event.pageY - event.y0, 2) | 0)).toFixed(2) + 'px');
+            var id = document.getElementById(event.target.id).id;
+            var x = getPosition(document.getElementById(event.target.id)).left;
+            var y = getPosition(document.getElementById(event.target.id)).top;
+            var scroll = Math.round(window.scrollY);
+            var yMod = 593 - scroll;
+            var finalY = y - yMod;
+            if (finalY < 0) {
+                finalY = 0;
+            }
+            socket.emit('dragShape', {
+                userID: userId,
+                name: username,
+                project: project,
+                shapeID: id,
+                newX: x,
+                newY: finalY
+            });
         }
     })
     .resizable({
-        // resize from all edges and corners
         edges: {
             left: true,
             right: true,
             bottom: true,
             top: true
         },
-        // keep the edges inside the parent
         restrictEdges: {
             outer: 'parent',
             endOnly: true,
         },
-        // minimum size
         restrictSize: {
             min: {
                 width: 10,
                 height: 10
             },
         },
-        inertia: false
-    })
-    .on('resizemove', function (event) {
-        var target = event.target,
-            x = (parseFloat(target.getAttribute('data-x')) || 0),
-            y = (parseFloat(target.getAttribute('data-y')) || 0);
-        // update the element's style
-        target.style.width = event.rect.width + 'px';
-        target.style.height = event.rect.height + 'px';
-        // translate when resizing from top or left edges
-        x += event.deltaRect.left;
-        y += event.deltaRect.top;
-        target.style.webkitTransform = target.style.transform =
-            'translate(' + x + 'px,' + y + 'px)';
-        target.setAttribute('data-x', x);
-        target.setAttribute('data-y', y);
-        //call socket here, gonna be a ton of calls
-        console.log(target.id);
+        inertia: false,
+        onmove: function (event) {
+            var target = event.target,
+                x = (parseFloat(target.getAttribute('data-x')) || 0),
+                y = (parseFloat(target.getAttribute('data-y')) || 0);
+            target.style.width = Math.round(event.rect.width) + 'px';
+            target.style.height = Math.round(event.rect.height) + 'px';
+            x += event.deltaRect.left;
+            y += event.deltaRect.top;
+            target.style.webkitTransform = target.style.transform =
+                'translate(' + Math.round(x) + 'px,' + Math.round(y) + 'px)';
+            target.setAttribute('data-x', Math.round(x));
+            target.setAttribute('data-y', Math.round(y));
+        },
+        onend: function (event) {
+            var id = document.getElementById(event.target.id).id;
+            var w = document.getElementById(event.target.id).style.width;
+            var h = document.getElementById(event.target.id).style.height;
+            var x = getPosition(document.getElementById(event.target.id)).left;
+            var y = getPosition(document.getElementById(event.target.id)).top;
+            var scroll = Math.round(window.scrollY);
+            var yMod = 593 - scroll;
+            var finalY = y - yMod;
+            if (finalY < 0) {
+                finalY = 0;
+            }
+            socket.emit('resizeShape', {
+                userID: userId,
+                name: username,
+                project: project,
+                shapeID: id,
+                newW: w,
+                newH: h,
+                newX: x,
+                newY: finalY
+            });
+        }
     });
 
 //execute socket emits here for updating shape and text size/contents/location
+socket.on('pushDragUpdate', function (data) {
+    var target = '';
+    if (document.getElementById(data.shapeID)) {
+        target = document.getElementById(data.shapeID);
+    } else if (document.getElementById(data.textID)) {
+        target = document.getElementById(data.textID);
+    }
+    target.style.left = data.newX+'px';
+    target.style.top = data.newY+'px';
+    document.getElementById('histlog').innerHTML += '<li><b>' + currentDate() + '</b>:' + data.name + ' altered an item</li>';
+});
+
+socket.on('pushResizeUpdate', function(data) {
+    var target = document.getElementById(data.shapeID);
+    target.style.width = data.newW;
+    target.style.height = data.newH;
+    target.style.left = data.newX+'px';
+    target.style.top = data.newY+'px';
+    document.getElementById('histlog').innerHTML += '<li><b>' + currentDate() + '</b>:' + data.name + ' resized a shape</li>';
+});
